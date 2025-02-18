@@ -3,8 +3,29 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'AboutMe.dart'; // Import AboutMe page
+
 class DogPhotoPage extends StatefulWidget {
-  const DogPhotoPage({Key? key}) : super(key: key);
+  final String name;
+  final String breed;
+  final String age;
+  final String gender;
+  final String weight;
+  final String medicalHistory;
+  final List<Map<String, String>> vaccinationRecords;
+  final String nextDueDate;
+
+  const DogPhotoPage({
+    Key? key,
+    required this.name,
+    required this.breed,
+    required this.age,
+    required this.gender,
+    required this.weight,
+    required this.medicalHistory,
+    required this.vaccinationRecords,
+    required this.nextDueDate,
+  }) : super(key: key);
 
   @override
   State<DogPhotoPage> createState() => _DogPhotoPageState();
@@ -105,7 +126,19 @@ class _DogPhotoPageState extends State<DogPhotoPage> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        // Add your save logic here
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => AboutMePage(
+                              name: widget.name,
+                              breed: widget.breed,
+                              age: widget.age,
+                              gender: widget.gender,
+                              weight: widget.weight,
+                              medicalHistory: widget.medicalHistory,
+                            ),
+                          ),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF6B00), // Orange button

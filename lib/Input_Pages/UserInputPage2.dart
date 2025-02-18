@@ -1,12 +1,22 @@
 import 'package:flutter/material.dart';
 
-import 'Photopage.dart'; // Import DogPhotoPage
+import 'UserInputPage3.dart'; // Import UserInputPage3
 
-class UserInputPage3 extends StatelessWidget {
+class UserInputPage2 extends StatelessWidget {
+  final String name;
+  final String breed;
+  final String age;
+
+  UserInputPage2({
+    required this.name,
+    required this.breed,
+    required this.age,
+  });
+
   final _formKey = GlobalKey<FormState>();
-  final _vaccinationController = TextEditingController();
-  final _vaccinationDateController = TextEditingController();
-  final _nextDueDateController = TextEditingController();
+  final _weightController = TextEditingController();
+  final _genderController = TextEditingController();
+  final _medicalHistoryController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +39,7 @@ class UserInputPage3 extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Image.asset(
-                      'assets/dog3.jpg',
+                      'assets/dog2.jpg',
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -44,9 +54,9 @@ class UserInputPage3 extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Vaccination field
+                    // Gender field
                     const Text(
-                      'Vaccination',
+                      'Gender',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -55,9 +65,15 @@ class UserInputPage3 extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _vaccinationController,
+                      controller: _genderController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your dog\'s gender';
+                        }
+                        return null;
+                      },
                       decoration: InputDecoration(
-                        hintText: "Which Vaccine did they get?",
+                        hintText: "What's your dog's gender?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -89,9 +105,9 @@ class UserInputPage3 extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     
-                    // Vaccination Date field
+                    // Weight field
                     const Text(
-                      'Vaccination Date',
+                      'Weight (kg)',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -100,19 +116,18 @@ class UserInputPage3 extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _vaccinationDateController,
+                      controller: _weightController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter the date of Vaccination';
+                          return 'Please enter your dog\'s weight';
                         }
-                        final dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
-                        if (!dateRegex.hasMatch(value)) {
-                          return 'Please enter a valid date (DD/MM/YYYY)';
+                        if (double.tryParse(value) == null) {
+                          return 'Please enter a valid number';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "DD/MM/YYYY",
+                        hintText: "How heavy is your pup?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -140,13 +155,13 @@ class UserInputPage3 extends StatelessWidget {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
-                      keyboardType: TextInputType.datetime,
+                      keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 24),
                     
-                    // Next Due Date field
+                    // Medical History field
                     const Text(
-                      'Next Due Date',
+                      'Medical History',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -155,19 +170,15 @@ class UserInputPage3 extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _nextDueDateController,
+                      controller: _medicalHistoryController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter the next due date';
-                        }
-                        final dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
-                        if (!dateRegex.hasMatch(value)) {
-                          return 'Please enter a valid date (DD/MM/YYYY)';
+                          return 'Please enter your dog\'s medical history';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "When is the next dose?",
+                        hintText: "Past illnesses, surgeries, or allergies",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -195,39 +206,8 @@ class UserInputPage3 extends StatelessWidget {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
-                      keyboardType: TextInputType.datetime,
                     ),
                     const SizedBox(height: 32),
-                    
-                    // Skip button
-                    SizedBox(
-                      width: double.infinity,
-                      height: 50,
-                      child: TextButton(
-                        onPressed: () {
-                          // Navigate to the next page without saving
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => DogPhotoPage()), // Navigate to DogPhotoPage
-                          );
-                        },
-                        style: TextButton.styleFrom(
-                          backgroundColor: Colors.transparent,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        child: const Text(
-                          'Skip',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
                     
                     // Save & Continue button
                     SizedBox(
@@ -239,13 +219,16 @@ class UserInputPage3 extends StatelessWidget {
                             // All fields are valid, proceed with saving
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => DogPhotoPage()), // Navigate to DogPhotoPage
-                            );
-                          } else {
-                            // Navigate to DogPhotoPage even if the form is not valid
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => DogPhotoPage()), // Navigate to DogPhotoPage
+                              MaterialPageRoute(
+                                builder: (context) => UserInputPage3(
+                                  name: name,
+                                  breed: breed,
+                                  age: age,
+                                  gender: _genderController.text,
+                                  weight: _weightController.text,
+                                  medicalHistory: _medicalHistoryController.text,
+                                ),
+                              ),
                             );
                           }
                         },

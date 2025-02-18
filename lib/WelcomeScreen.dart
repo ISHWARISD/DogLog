@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'UserInputPage1.dart'; // Import UserInputPage1
+import 'Input_Pages/UserInputPage1.dart'; // Import UserInputPage1
 
 class WelcomeScreen extends StatelessWidget {
   @override

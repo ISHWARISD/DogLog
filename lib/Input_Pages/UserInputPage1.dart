@@ -1,12 +1,25 @@
 import 'package:flutter/material.dart';
 
-import 'UserInputPage3.dart'; // Import UserInputPage3
+import 'UserInputPage2.dart'; // Import UserInputPage2
 
-class UserInputPage2 extends StatelessWidget {
+class UserInputPage1 extends StatefulWidget {
+  @override
+  _UserInputPage1State createState() => _UserInputPage1State();
+}
+
+class _UserInputPage1State extends State<UserInputPage1> {
   final _formKey = GlobalKey<FormState>();
-  final _weightController = TextEditingController();
-  final _vaccinationController = TextEditingController();
-  final _medicalHistoryController = TextEditingController();
+  final _nameController = TextEditingController();
+  final _breedController = TextEditingController();
+  final _ageController = TextEditingController();
+
+  @override
+  void dispose() {
+    _nameController.dispose();
+    _breedController.dispose();
+    _ageController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,8 +42,24 @@ class UserInputPage2 extends StatelessWidget {
                 children: [
                   Positioned.fill(
                     child: Image.asset(
-                      'assets/dog2.jpg',
+                      'assets/dog1.jpg',
                       fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      color: const Color.fromARGB(255, 255, 179, 0).withOpacity(0.5),
+                      child: Text(
+                        "Your Dog's Story Starts Here!",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ],
@@ -44,9 +73,9 @@ class UserInputPage2 extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Gender field
+                    // Name field
                     const Text(
-                      'Gender',
+                      'Name',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -55,15 +84,15 @@ class UserInputPage2 extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _weightController,
+                      controller: _nameController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s gender';
+                          return 'Please enter your dog\'s name';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "What's your dog's gender?",
+                        hintText: "What's your dog name?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -91,13 +120,12 @@ class UserInputPage2 extends StatelessWidget {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
-                      keyboardType: TextInputType.text,
                     ),
                     const SizedBox(height: 24),
                     
-                    // Weight field
+                    // Breed field
                     const Text(
-                      'Weight (kg)',
+                      'Breed',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -106,10 +134,60 @@ class UserInputPage2 extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _vaccinationController,
+                      controller: _breedController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s weight';
+                          return 'Please enter your dog\'s breed';
+                        }
+                        return null;
+                      },
+                      decoration: InputDecoration(
+                        hintText: "Tell Us About Their Breed!",
+                        hintStyle: TextStyle(
+                          color: Colors.grey[400],
+                          fontFamily: 'Poppins',
+                          fontSize: 14,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.grey[300]!),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Color(0xFFFFB300)),
+                        ),
+                        errorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                        focusedErrorBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide(color: Colors.red),
+                        ),
+                      ),
+                      cursorColor: Color(0xFFFFB300),
+                    ),
+                    const SizedBox(height: 24),
+                    
+                    // Age field
+                    const Text(
+                      'Age',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _ageController,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your dog\'s age';
                         }
                         if (double.tryParse(value) == null) {
                           return 'Please enter a valid number';
@@ -117,7 +195,7 @@ class UserInputPage2 extends StatelessWidget {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "How heavy is your pup?",
+                        hintText: "How Old Is Your Furry Friend?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -147,59 +225,9 @@ class UserInputPage2 extends StatelessWidget {
                       cursorColor: Color(0xFFFFB300),
                       keyboardType: TextInputType.number,
                     ),
-                    const SizedBox(height: 24),
-                    
-                    // Medical History field
-                    const Text(
-                      'Medical History',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    TextFormField(
-                      controller: _medicalHistoryController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s medical history';
-                        }
-                        return null;
-                      },
-                      decoration: InputDecoration(
-                        hintText: "Past illnesses, surgeries, or allergies",
-                        hintStyle: TextStyle(
-                          color: Colors.grey[400],
-                          fontFamily: 'Poppins',
-                          fontSize: 14,
-                        ),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFFFFB300)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                      ),
-                      cursorColor: Color(0xFFFFB300),
-                    ),
                     const SizedBox(height: 32),
                     
-                    // Submit button
+                    // Save & Continue button
                     SizedBox(
                       width: double.infinity,
                       height: 50,
@@ -209,7 +237,13 @@ class UserInputPage2 extends StatelessWidget {
                             // All fields are valid, proceed with saving
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => UserInputPage3()),
+                              MaterialPageRoute(
+                                builder: (context) => UserInputPage2(
+                                  name: _nameController.text,
+                                  breed: _breedController.text,
+                                  age: _ageController.text,
+                                ),
+                              ),
                             );
                           }
                         },

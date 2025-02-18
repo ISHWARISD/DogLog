@@ -1,25 +1,28 @@
 import 'package:flutter/material.dart';
 
-import 'UserInputPage2.dart'; // Import UserInputPage2
+import '../Photopage.dart'; // Import DogPhotoPage
 
-class UserInputPage1 extends StatefulWidget {
-  @override
-  _UserInputPage1State createState() => _UserInputPage1State();
-}
+class UserInputPage3 extends StatelessWidget {
+  final String name;
+  final String breed;
+  final String age;
+  final String gender;
+  final String weight;
+  final String medicalHistory;
 
-class _UserInputPage1State extends State<UserInputPage1> {
+  UserInputPage3({
+    required this.name,
+    required this.breed,
+    required this.age,
+    required this.gender,
+    required this.weight,
+    required this.medicalHistory,
+  });
+
   final _formKey = GlobalKey<FormState>();
-  final _nameController = TextEditingController();
-  final _breedController = TextEditingController();
-  final _ageController = TextEditingController();
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    _breedController.dispose();
-    _ageController.dispose();
-    super.dispose();
-  }
+  final _vaccinationController = TextEditingController();
+  final _vaccinationDateController = TextEditingController();
+  final _nextDueDateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -42,24 +45,8 @@ class _UserInputPage1State extends State<UserInputPage1> {
                 children: [
                   Positioned.fill(
                     child: Image.asset(
-                      'assets/dog1.jpg',
+                      'assets/dog3.jpg',
                       fit: BoxFit.cover,
-                    ),
-                  ),
-                  Positioned(
-                    bottom: 20,
-                    child: Container(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      color: const Color.fromARGB(255, 255, 179, 0).withOpacity(0.5),
-                      child: Text(
-                        "Your Dog's Story Starts Here!",
-                        style: TextStyle(
-                          fontSize: 22,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
                     ),
                   ),
                 ],
@@ -73,9 +60,9 @@ class _UserInputPage1State extends State<UserInputPage1> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Name field
+                    // Vaccination field
                     const Text(
-                      'Name',
+                      'Vaccination',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -84,15 +71,9 @@ class _UserInputPage1State extends State<UserInputPage1> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _nameController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s name';
-                        }
-                        return null;
-                      },
+                      controller: _vaccinationController,
                       decoration: InputDecoration(
-                        hintText: "What's your dog name?",
+                        hintText: "Which Vaccine did they get?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -120,12 +101,13 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
+                      keyboardType: TextInputType.text,
                     ),
                     const SizedBox(height: 24),
                     
-                    // Breed field
+                    // Vaccination Date field
                     const Text(
-                      'Breed',
+                      'Vaccination Date',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -134,15 +116,19 @@ class _UserInputPage1State extends State<UserInputPage1> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _breedController,
+                      controller: _vaccinationDateController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s breed';
+                          return 'Please enter the date of Vaccination';
+                        }
+                        final dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+                        if (!dateRegex.hasMatch(value)) {
+                          return 'Please enter a valid date (DD/MM/YYYY)';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "Tell Us About Their Breed!",
+                        hintText: "DD/MM/YYYY",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -170,12 +156,13 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
+                      keyboardType: TextInputType.datetime,
                     ),
                     const SizedBox(height: 24),
                     
-                    // Age field
+                    // Next Due Date field
                     const Text(
-                      'Age',
+                      'Next Due Date',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -184,18 +171,19 @@ class _UserInputPage1State extends State<UserInputPage1> {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      controller: _ageController,
+                      controller: _nextDueDateController,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your dog\'s age';
+                          return 'Please enter the next due date';
                         }
-                        if (double.tryParse(value) == null) {
-                          return 'Please enter a valid number';
+                        final dateRegex = RegExp(r'^\d{2}/\d{2}/\d{4}$');
+                        if (!dateRegex.hasMatch(value)) {
+                          return 'Please enter a valid date (DD/MM/YYYY)';
                         }
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "How Old Is Your Furry Friend?",
+                        hintText: "When is the next dose?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -223,9 +211,50 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
-                      keyboardType: TextInputType.number,
+                      keyboardType: TextInputType.datetime,
                     ),
                     const SizedBox(height: 32),
+                    
+                    // Skip button
+                    SizedBox(
+                      width: double.infinity,
+                      height: 50,
+                      child: TextButton(
+                        onPressed: () {
+                          // Navigate to the next page without saving
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DogPhotoPage(
+                                name: name,
+                                breed: breed,
+                                age: age,
+                                gender: gender,
+                                weight: weight,
+                                medicalHistory: medicalHistory,
+                                vaccinationRecords: [],
+                                nextDueDate: '',
+                              ),
+                            ),
+                          );
+                        },
+                        style: TextButton.styleFrom(
+                          backgroundColor: Colors.transparent,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: const Text(
+                          'Skip',
+                          style: TextStyle(
+                            color: Colors.grey,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 16),
                     
                     // Save & Continue button
                     SizedBox(
@@ -237,12 +266,28 @@ class _UserInputPage1State extends State<UserInputPage1> {
                             // All fields are valid, proceed with saving
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (context) => UserInputPage2()),
+                              MaterialPageRoute(
+                                builder: (context) => DogPhotoPage(
+                                  name: name,
+                                  breed: breed,
+                                  age: age,
+                                  gender: gender,
+                                  weight: weight,
+                                  medicalHistory: medicalHistory,
+                                  vaccinationRecords: [
+                                    {
+                                      'name': _vaccinationController.text,
+                                      'date': _vaccinationDateController.text,
+                                    },
+                                  ],
+                                  nextDueDate: _nextDueDateController.text,
+                                ),
+                              ),
                             );
                           }
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color.fromARGB(255, 230, 121, 43),
+                          backgroundColor: const Color(0xFFFF6B00), // Orange button
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
                           ),
