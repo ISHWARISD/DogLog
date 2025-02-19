@@ -136,6 +136,7 @@ class _DogPhotoPageState extends State<DogPhotoPage> {
                               gender: widget.gender,
                               weight: widget.weight,
                               medicalHistory: widget.medicalHistory,
+                              imageFile: _imageFile,
                             ),
                           ),
                         );

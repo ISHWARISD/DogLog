@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'AboutMe.dart'; // Import AboutMe page
-import 'VetCare.dart'; // Import VetCare page
+import 'AboutMe.dart';
+import 'VetCare.dart';
 
 class RulebookPage extends StatelessWidget {
   const RulebookPage({Key? key}) : super(key: key);
@@ -11,7 +11,7 @@ class RulebookPage extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        backgroundColor: Color(0xFFFFB74D), // Orange background
+        backgroundColor: Color(0xFFFFB74D),
         body: SafeArea(
           child: Column(
             children: [
@@ -68,26 +68,14 @@ class RulebookPage extends StatelessWidget {
                         ),
                         SizedBox(height: 24),
 
-                        // Dog Grid
+                        // Image Container
                         Container(
                           decoration: BoxDecoration(
                             border: Border.all(color: Colors.brown, width: 2),
-                            color: Colors.white,
                           ),
-                          child: GridView.count(
-                            shrinkWrap: true,
-                            physics: NeverScrollableScrollPhysics(),
-                            crossAxisCount: 3,
-                            children: List.generate(9, (index) {
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: _getDogBackgroundColor(index),
-                                ),
-                                child: CustomPaint(
-                                  painter: DogIconPainter(index),
-                                ),
-                              );
-                            }),
+                          child: Image.asset(
+                            'assets/rulebook.jpg',
+                            fit: BoxFit.cover,
                           ),
                         ),
                         SizedBox(height: 24),
@@ -103,7 +91,7 @@ class RulebookPage extends StatelessWidget {
                         ),
                         SizedBox(height: 32),
 
-                        // Jump In Button - Updated styling
+                        // Jump In Button
                         ElevatedButton(
                           onPressed: () {},
                           style: ElevatedButton.styleFrom(
@@ -131,18 +119,11 @@ class RulebookPage extends StatelessWidget {
                 ),
               ),
 
-              // Bottom Navigation
-              Container(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  ),
-                ),
+              // Updated Bottom Navigation
+              Padding(
+                padding: const EdgeInsets.all(16.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     GestureDetector(
                       onTap: () {
@@ -193,50 +174,25 @@ class RulebookPage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12)),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
-
-  Color _getDogBackgroundColor(int index) {
-    final colors = [
-      Color(0xFFFFF3E0), // Beige
-      Color(0xFF8D6E63), // Brown
-      Color(0xFFFFB74D), // Orange
-      Color(0xFFFFB74D), // Orange
-      Color(0xFF8D6E63), // Brown
-      Color(0xFFFFF3E0), // Beige
-      Color(0xFFFFF3E0), // Beige
-      Color(0xFF8D6E63), // Brown
-      Color(0xFFFFB74D), // Orange
-    ];
-    return colors[index];
-  }
-}
-
-class DogIconPainter extends CustomPainter {
-  final int dogIndex;
-
-  DogIconPainter(this.dogIndex);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint()
-      ..color = Colors.black54
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2;
-
-    canvas.drawCircle(
-      Offset(size.width / 2, size.height / 2),
-      size.width / 4,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => false;
 }
 
 void main() {

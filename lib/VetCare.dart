@@ -1,182 +1,177 @@
-import 'package:flutter/material.dart';
+import 'dart:convert';
 
-class VetCarePage extends StatelessWidget {
-  const VetCarePage({Key? key}) : super(key: key);
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'AboutMe.dart'; // Import AboutMe page
+import 'Rulebook.dart'; // Import Rulebook page
+
+class VetCarePage extends StatefulWidget {
+  @override
+  _VetCarePageState createState() => _VetCarePageState();
+}
+
+class _VetCarePageState extends State<VetCarePage> {
+  List<dynamic> _contacts = [];
+  List<dynamic> _filteredContacts = [];
+  TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadContacts();
+    _searchController.addListener(_filterContacts);
+  }
+
+  Future<void> _loadContacts() async {
+    final String response = await rootBundle.loadString('data/vetcare.json');
+    final data = await json.decode(response);
+    setState(() {
+      _contacts = data['contacts'];
+      _filteredContacts = _contacts;
+    });
+  }
+
+  void _filterContacts() {
+    final query = _searchController.text.toLowerCase();
+    setState(() {
+      _filteredContacts = _contacts.where((contact) {
+        final name = contact['Name'].toLowerCase();
+        return name.contains(query);
+      }).toList();
+    });
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFB74D), // Orange background color
+      appBar: AppBar(
+        title: Text('Vet Care'),
+        backgroundColor: Color(0xFFFFB300), // Set the same background color as WelcomeScreen
+      ),
+      backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
-          children: [
-            // Logo and Header
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      shape: BoxShape.circle,
-                    ),
-                    child: Icon(Icons.pets, size: 24),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              // Search Bar
+              TextField(
+                controller: _searchController,
+                decoration: InputDecoration(
+                  labelText: 'Search Vets Near You..',
+                  labelStyle: TextStyle(
+                    fontFamily: 'Poppins',
                   ),
-                  SizedBox(width: 12),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'DogLog',
-                        style: TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+              SizedBox(height: 16),
+              // List of Contacts
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _filteredContacts.length,
+                  itemBuilder: (context, index) {
+                    final contact = _filteredContacts[index];
+                    return Card(
+                      color: Color(0xFFFFF9C4), // Slightly yellow background
+                      child: ListTile(
+                        title: Text(contact['Name'], style: TextStyle(fontWeight: FontWeight.bold)),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            SizedBox(height: 8),
+                            Row(
+                              children: [
+                                Icon(Icons.phone, size: 16, color: Colors.grey),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text('Contact Number: ${contact['Contact Number']}'),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(Icons.email, size: 16, color: Colors.grey),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text('Email: ${contact['Email-address']}'),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 4),
+                            Row(
+                              children: [
+                                Icon(Icons.access_time, size: 16, color: Colors.grey),
+                                SizedBox(width: 8),
+                                Expanded(
+                                  child: Text('Available Hours: ${contact['Available Hours']}'),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                       ),
-                      Text(
-                        'Because every Dog deserves Best!',
-                        style: TextStyle(fontSize: 14),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            // Search Bar
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: TextField(
-                decoration: InputDecoration(
-                  filled: true,
-                  fillColor: Color(0xFFFFE0B2),
-                  hintText: 'Vet Services near you...',
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
-                    borderSide: BorderSide.none,
-                  ),
-                  suffixIcon: Icon(Icons.search),
+                    );
+                  },
                 ),
               ),
-            ),
+              const Spacer(),
 
-            // Vet Cards
-            Expanded(
-              child: ListView(
-                padding: EdgeInsets.all(16),
+              // Bottom Navigation
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  _buildVetCard(
-                    'Dr.Raj Sharma',
-                    '1234567890',
-                    'abc@gmail.com',
-                    '10 am - 4 pm',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => RulebookPage()),
+                      );
+                    },
+                    child: _buildNavItem(Icons.book, 'Rule Book'),
                   ),
-                  _buildVetCard(
-                    'Dr.Nidhi Roy',
-                    '1234567890',
-                    'abc@gmail.com',
-                    '10 am - 4 pm',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => VetCarePage()),
+                      );
+                    },
+                    child: _buildNavItem(Icons.home, 'Vet Care'),
                   ),
-                  _buildVetCard(
-                    'Dr.Ishwari Rai',
-                    '1234567890',
-                    'abc@gmail.com',
-                    '10 am - 4 pm',
-                    showVaccinations: true,
-                  ),
-                  _buildVetCard(
-                    'Dr.Joshi',
-                    '1234567890',
-                    'abc@gmail.com',
-                    '10 am - 4 pm',
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => AboutMePage(
+                          name: 'Millie',
+                          breed: 'Golden Retriever',
+                          age: '1yr',
+                          gender: 'Female',
+                          weight: '30 kg',
+                          medicalHistory: 'None',
+                          imageFile: null,
+                        )),
+                      );
+                    },
+                    child: _buildNavItem(Icons.pets, 'About Me'),
                   ),
                 ],
               ),
-            ),
-
-            // Bottom Navigation
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 12),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20),
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildNavItem(Icons.book, 'Rule Book'),
-                  _buildNavItem(Icons.home, 'Vet Care'),
-                  _buildNavItem(Icons.pets, 'About Me'),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildVetCard(
-    String name,
-    String contact,
-    String email,
-    String hours, {
-    bool showVaccinations = false,
-  }) {
-    return Card(
-      margin: EdgeInsets.only(bottom: 16),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Padding(
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              name,
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            SizedBox(height: 12),
-            if (!showVaccinations) ...[
-              _buildInfoRow(Icons.phone, 'Contact Number', contact),
-              _buildInfoRow(Icons.email, 'Email-Address', email),
-              _buildInfoRow(Icons.access_time, 'Available Hours', hours),
-            ] else ...[
-              _buildInfoRow(Icons.medical_services, 'Rabies Vaccination', contact),
-              _buildInfoRow(Icons.medical_services, 'Bordetella Vaccination', email),
-              _buildInfoRow(Icons.medical_services, 'Leptospirosis Vaccination', hours),
             ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildInfoRow(IconData icon, String label, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          Icon(icon, size: 20, color: Colors.grey),
-          SizedBox(width: 8),
-          Expanded(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(label),
-                Text(value),
-              ],
-            ),
           ),
-        ],
+        ),
       ),
     );
   }
@@ -185,10 +180,29 @@ class VetCarePage extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon),
-        SizedBox(height: 4),
-        Text(label, style: TextStyle(fontSize: 12)),
+        Container(
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: Icon(icon),
+        ),
+        const SizedBox(height: 4),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 12,
+            fontWeight: FontWeight.w500,
+          ),
+        ),
       ],
     );
   }
+}
+
+void main() {
+  runApp(MaterialApp(
+    home: VetCarePage(),
+  ));
 }
