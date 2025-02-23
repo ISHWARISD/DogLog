@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'AboutMe.dart'; // Import AboutMe page
-import 'Rulebook.dart'; // Import Rulebook page
+import 'AboutMe.dart';
+import 'Rulebook/Rulebook.dart';
 
 class VetCarePage extends StatefulWidget {
   @override
@@ -52,109 +52,172 @@ class _VetCarePageState extends State<VetCarePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Vet Care'),
-        backgroundColor: Color(0xFFFFB300), // Set the same background color as WelcomeScreen
+        elevation: 0,
+        title: Text(
+          'Vet Care',
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Color(0xFFFFB300),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(
+            bottom: Radius.circular(20),
+          ),
+        ),
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFFFFFBE6), // Light cream background
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              // Search Bar
-              TextField(
+        child: Column(
+          children: [
+            // Search Container
+            Container(
+              margin: EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(15),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: TextField(
                 controller: _searchController,
                 decoration: InputDecoration(
-                  labelText: 'Search Vets Near You..',
-                  labelStyle: TextStyle(
+                  hintText: 'Search Vets Near You..',
+                  hintStyle: TextStyle(
+                    color: Colors.grey[400],
                     fontFamily: 'Poppins',
                   ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Color(0xFFFFB300),
                   ),
-                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none,
+                  contentPadding: EdgeInsets.symmetric(
+                    horizontal: 20,
+                    vertical: 15,
+                  ),
                 ),
               ),
-              SizedBox(height: 16),
-              // List of Contacts
-              Expanded(
-                child: ListView.builder(
-                  itemCount: _filteredContacts.length,
-                  itemBuilder: (context, index) {
-                    final contact = _filteredContacts[index];
-                    return Card(
-                      color: Color(0xFFFFF9C4), // Slightly yellow background
-                      child: ListTile(
-                        title: Text(contact['Name'], style: TextStyle(fontWeight: FontWeight.bold)),
-                        subtitle: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(height: 8),
-                            Row(
-                              children: [
-                                Icon(Icons.phone, size: 16, color: Colors.grey),
-                                SizedBox(width: 8),
-                                Expanded(
-                                  child: Text('Contact Number: ${contact['Contact Number']}'),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Icon(Icons.email, size: 16, color: Colors.grey),
-                                SizedBox(width: 8),
-                                Expanded(
-                                  child: Text('Email: ${contact['Email-address']}'),
-                                ),
-                              ],
-                            ),
-                            SizedBox(height: 4),
-                            Row(
-                              children: [
-                                Icon(Icons.access_time, size: 16, color: Colors.grey),
-                                SizedBox(width: 8),
-                                Expanded(
-                                  child: Text('Available Hours: ${contact['Available Hours']}'),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              ),
-              const Spacer(),
+            ),
 
-              // Bottom Navigation
-              Row(
+            // List of Contacts
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.symmetric(horizontal: 16),
+                itemCount: _filteredContacts.length,
+                itemBuilder: (context, index) {
+                  final contact = _filteredContacts[index];
+                  return Container(
+                    margin: EdgeInsets.only(bottom: 12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.05),
+                          blurRadius: 8,
+                          offset: Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(16),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              CircleAvatar(
+                                backgroundColor: Color(0xFFFFB300),
+                                child: Icon(
+                                  Icons.medical_services,
+                                  color: Colors.white,
+                                ),
+                              ),
+                              SizedBox(width: 12),
+                              Expanded(
+                                child: Text(
+                                  contact['Name'],
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 12),
+                          _buildContactInfo(
+                            Icons.phone,
+                            contact['Contact Number'],
+                          ),
+                          _buildContactInfo(
+                            Icons.email,
+                            contact['Email-address'],
+                          ),
+                          _buildContactInfo(
+                            Icons.access_time,
+                            contact['Available Hours'],
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+
+            // Bottom Navigation
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.1),
+                    blurRadius: 10,
+                    offset: Offset(0, -2),
+                  ),
+                ],
+              ),
+              child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => RulebookPage()),
-                      );
-                    },
-                    child: _buildNavItem(Icons.book, 'Rule Book'),
+                  _buildNavButton(
+                    context,
+                    Icons.book,
+                    'Rule Book',
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => RulebookPage()),
+                    ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => VetCarePage()),
-                      );
-                    },
-                    child: _buildNavItem(Icons.home, 'Vet Care'),
+                  _buildNavButton(
+                    context,
+                    Icons.home,
+                    'Vet Care',
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => VetCarePage()),
+                    ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => AboutMePage(
+                  _buildNavButton(
+                    context,
+                    Icons.pets,
+                    'About Me',
+                    () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AboutMePage(
                           name: 'Millie',
                           breed: 'Golden Retriever',
                           age: '1yr',
@@ -162,47 +225,77 @@ class _VetCarePageState extends State<VetCarePage> {
                           weight: '30 kg',
                           medicalHistory: 'None',
                           imageFile: null,
-                        )),
-                      );
-                    },
-                    child: _buildNavItem(Icons.pets, 'About Me'),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
-  Widget _buildNavItem(IconData icon, String label) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Container(
-          padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
+  Widget _buildContactInfo(IconData icon, String text) {
+    return Padding(
+      padding: EdgeInsets.only(bottom: 8),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            size: 18,
+            color: Color(0xFFFFB300),
           ),
-          child: Icon(icon),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 12,
-            fontWeight: FontWeight.w500,
+          SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black87,
+              ),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
-}
 
-void main() {
-  runApp(MaterialApp(
-    home: VetCarePage(),
-  ));
+  Widget _buildNavButton(
+    BuildContext context,
+    IconData icon,
+    String label,
+    VoidCallback onTap,
+  ) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: EdgeInsets.all(12),
+            decoration: BoxDecoration(
+              color: Color(0xFFFFF3E0),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Icon(
+              icon,
+              color: Color(0xFFFFB300),
+            ),
+          ),
+          SizedBox(height: 4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.w500,
+              color: Colors.black87,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }

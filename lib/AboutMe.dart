@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'Rulebook.dart'; // Import Rulebook page
+import 'Rulebook/Rulebook.dart'; // Import Rulebook page
 import 'VetCare.dart'; // Import VetCare page
 
 class AboutMePage extends StatelessWidget {
