@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
 import 'AboutMe.dart'; // Import AboutMe page
+import 'database_helper.dart'; // Import DatabaseHelper
 
 class DogPhotoPage extends StatefulWidget {
   final String name;
@@ -41,6 +42,27 @@ class _DogPhotoPageState extends State<DogPhotoPage> {
       setState(() {
         _imageFile = File(pickedFile.path);
       });
+    }
+  }
+
+  Future<void> _saveDogInfo() async {
+    try {
+      Map<String, dynamic> row = {
+        'name': widget.name,
+        'breed': widget.breed,
+        'age': widget.age,
+        'gender': widget.gender,
+        'weight': widget.weight,
+        'medical_history': widget.medicalHistory,
+        'vaccination': widget.vaccinationRecords.map((record) => record['name']).join(', '),
+        'vaccination_date': widget.vaccinationRecords.map((record) => record['date']).join(', '),
+        'next_due_date': widget.nextDueDate,
+        'image_file': _imageFile?.path,
+      };
+      await DatabaseHelper().insertDogInfo(row);
+      print('Dog info saved successfully');
+    } catch (e) {
+      print('Error saving dog info: $e');
     }
   }
 
@@ -125,21 +147,21 @@ class _DogPhotoPageState extends State<DogPhotoPage> {
                     width: double.infinity,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => AboutMePage(
-                              name: widget.name,
-                              breed: widget.breed,
-                              age: widget.age,
-                              gender: widget.gender,
-                              weight: widget.weight,
-                              medicalHistory: widget.medicalHistory,
-                              imageFile: _imageFile,
+                      onPressed: () async {
+                        try {
+                          print('Save & Continue button pressed');
+                          await _saveDogInfo();
+                          print('Dog info saved');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => AboutMePage(),
                             ),
-                          ),
-                        );
+                          );
+                          print('Navigating to AboutMePage');
+                        } catch (e) {
+                          print('Error during navigation: $e');
+                        }
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFFFF6B00), // Orange button

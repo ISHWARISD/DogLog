@@ -4,28 +4,45 @@ import 'package:flutter/material.dart';
 
 import 'Rulebook/Rulebook.dart'; // Import Rulebook page
 import 'VetCare.dart'; // Import VetCare page
+import 'database_helper.dart'; // Import DatabaseHelper
 
-class AboutMePage extends StatelessWidget {
-  final String name;
-  final String breed;
-  final String age;
-  final String gender;
-  final String weight;
-  final String medicalHistory;
-  final File? imageFile;
+class AboutMePage extends StatefulWidget {
+  // Supporting multiple constructor formats
+  const AboutMePage({Key? key}) : super(key: key);
+  
+  // Add this default constructor as a fallback
+  // ignore: prefer_const_constructors_in_immutables
+  AboutMePage.create() : super();
 
-  AboutMePage({
-    required this.name,
-    required this.breed,
-    required this.age,
-    required this.gender,
-    required this.weight,
-    required this.medicalHistory,
-    this.imageFile,
-  });
+  @override
+  _AboutMePageState createState() => _AboutMePageState();
+}
+
+class _AboutMePageState extends State<AboutMePage> {
+  Map<String, dynamic>? dogInfo;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDogInfo();
+  }
+
+  Future<void> _fetchDogInfo() async {
+    Map<String, dynamic>? info = await DatabaseHelper().getLatestDogInfo();
+    setState(() {
+      dogInfo = info;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (dogInfo == null) {
+      return const Scaffold(
+        backgroundColor: Color(0xFFFFB900),
+        body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
     return Scaffold(
       backgroundColor: const Color(0xFFFFB900),
       body: SafeArea(
@@ -71,8 +88,8 @@ class AboutMePage extends StatelessWidget {
 
               // Dog name
               Text(
-                'Hi, $name..',
-                style: TextStyle(
+                'Hi, ${dogInfo!['name']}..',
+                style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
                 ),
@@ -80,10 +97,10 @@ class AboutMePage extends StatelessWidget {
               const SizedBox(height: 16),
 
               // Dog photo
-              if (imageFile != null)
+              if (dogInfo!['image_file'] != null)
                 Center(
                   child: Image.file(
-                    imageFile!,
+                    File(dogInfo!['image_file']),
                     height: 200,
                     width: 200,
                     fit: BoxFit.cover,
@@ -95,11 +112,11 @@ class AboutMePage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _buildInfoCard('Breed', breed),
+                    child: _buildInfoCard('Breed', dogInfo!['breed']),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildInfoCard('Age', age),
+                    child: _buildInfoCard('Age', dogInfo!['age']),
                   ),
                 ],
               ),
@@ -107,11 +124,11 @@ class AboutMePage extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: _buildInfoCard('Weight', '$weight kg'),
+                    child: _buildInfoCard('Weight', '${dogInfo!['weight']} kg'),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildInfoCard('Gender', gender),
+                    child: _buildInfoCard('Gender', dogInfo!['gender']),
                   ),
                 ],
               ),
@@ -120,7 +137,7 @@ class AboutMePage extends StatelessWidget {
               // Medical History
               _buildExpandableCard(
                 'Medical History',
-                Text(medicalHistory),
+                Text(dogInfo!['medical_history']),
               ),
               const SizedBox(height: 16),
 
@@ -134,7 +151,7 @@ class AboutMePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => RulebookPage()),
+                        MaterialPageRoute(builder: (context) => const RulebookPage()),
                       );
                     },
                     child: _buildNavItem(Icons.book, 'Rule Book'),
@@ -143,7 +160,7 @@ class AboutMePage extends StatelessWidget {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => VetCarePage()),
+                        MaterialPageRoute(builder: (context) =>  VetCarePage()),
                       );
                     },
                     child: _buildNavItem(Icons.home, 'Vet Care'),

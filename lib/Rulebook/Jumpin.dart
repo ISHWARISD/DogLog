@@ -145,17 +145,7 @@ class GuidancePage extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(
-                              builder: (context) => AboutMePage(
-                                name: 'Millie',
-                                breed: 'Golden Retriever',
-                                age: '1yr',
-                                gender: 'Female',
-                                weight: '30 kg',
-                                medicalHistory: 'None',
-                                imageFile: null,
-                              ),
-                            ),
+                            MaterialPageRoute(builder: (context) => AboutMePage()),
                           );
                         },
                         child: _buildNavItem(Icons.pets, 'About Me'),
@@ -184,7 +174,7 @@ class GuidancePage extends StatelessWidget {
     },
     {
       'title': 'Vaccination & Medical Care',
-      'description': 'Protect your pup with core and non-core vaccinations, //ensuring they stay safe from serious diseases.',
+      'description': 'Protect your pup with core and non-core vaccinations, ensuring they stay safe from serious diseases.',
       'imagePath': 'assets/dogvaccination.jpg',
     },
     {

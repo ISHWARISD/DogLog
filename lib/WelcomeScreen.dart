@@ -46,17 +46,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(
-                    builder: (context) => AboutMePage(
-                      name: '',
-                      breed: '',
-                      age: '',
-                      gender: '',
-                      weight: '',
-                      medicalHistory: '',
-                      imageFile: null,
-                    ),
-                  ),
+                  MaterialPageRoute(builder: (context) => const AboutMePage()),
                 );
               },
               child: Text(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../database_helper.dart';
 import 'UserInputPage2.dart'; // Import UserInputPage2
 
 class UserInputPage1 extends StatefulWidget {
@@ -19,6 +20,27 @@ class _UserInputPage1State extends State<UserInputPage1> {
     _breedController.dispose();
     _ageController.dispose();
     super.dispose();
+  }
+
+  Future<void> _saveDogInfo() async {
+    if (_formKey.currentState!.validate()) {
+      Map<String, dynamic> row = {
+        'name': _nameController.text,
+        'breed': _breedController.text,
+        'age': _ageController.text,
+      };
+      await DatabaseHelper().insertDogInfo(row);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserInputPage2(
+            name: _nameController.text,
+            breed: _breedController.text,
+            age: _ageController.text,
+          ),
+        ),
+      );
+    }
   }
 
   @override
@@ -232,21 +254,7 @@ class _UserInputPage1State extends State<UserInputPage1> {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // All fields are valid, proceed with saving
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UserInputPage2(
-                                  name: _nameController.text,
-                                  breed: _breedController.text,
-                                  age: _ageController.text,
-                                ),
-                              ),
-                            );
-                          }
-                        },
+                        onPressed: _saveDogInfo,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 230, 121, 43),
                           shape: RoundedRectangleBorder(

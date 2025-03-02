@@ -153,15 +153,7 @@ class RulebookPage extends StatelessWidget {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => AboutMePage(
-                            name: 'Millie',
-                            breed: 'Golden Retriever',
-                            age: '1yr',
-                            gender: 'Female',
-                            weight: '30 kg',
-                            medicalHistory: 'None',
-                            imageFile: null,
-                          )),
+                          MaterialPageRoute(builder: (context) => AboutMePage()),
                         );
                       },
                       child: _buildNavItem(Icons.pets, 'About Me'),

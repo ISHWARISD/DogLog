@@ -3,10 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'AboutMe.dart';
+import 'AboutMe.dart'; // Import AboutMe page
 import 'Rulebook/Rulebook.dart';
 
 class VetCarePage extends StatefulWidget {
+  // Add const constructor
+  const VetCarePage({Key? key}) : super(key: key);
+
   @override
   _VetCarePageState createState() => _VetCarePageState();
 }
@@ -14,7 +17,7 @@ class VetCarePage extends StatefulWidget {
 class _VetCarePageState extends State<VetCarePage> {
   List<dynamic> _contacts = [];
   List<dynamic> _filteredContacts = [];
-  TextEditingController _searchController = TextEditingController();
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -53,7 +56,7 @@ class _VetCarePageState extends State<VetCarePage> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: Text(
+        title: const Text(
           'Vet Care',
           style: TextStyle(
             fontSize: 24,
@@ -61,20 +64,20 @@ class _VetCarePageState extends State<VetCarePage> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color(0xFFFFB300),
-        shape: RoundedRectangleBorder(
+        backgroundColor: const Color(0xFFFFB300),
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
             bottom: Radius.circular(20),
           ),
         ),
       ),
-      backgroundColor: Color(0xFFFFFBE6), // Light cream background
+      backgroundColor: const Color(0xFFFFFBE6), // Light cream background
       body: SafeArea(
         child: Column(
           children: [
             // Search Container
             Container(
-              margin: EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(15),
@@ -82,7 +85,7 @@ class _VetCarePageState extends State<VetCarePage> {
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: Offset(0, 3),
+                    offset: const Offset(0, 3),
                   ),
                 ],
               ),
@@ -94,12 +97,12 @@ class _VetCarePageState extends State<VetCarePage> {
                     color: Colors.grey[400],
                     fontFamily: 'Poppins',
                   ),
-                  prefixIcon: Icon(
+                  prefixIcon: const Icon(
                     Icons.search,
                     color: Color(0xFFFFB300),
                   ),
                   border: InputBorder.none,
-                  contentPadding: EdgeInsets.symmetric(
+                  contentPadding: const EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 15,
                   ),
@@ -110,12 +113,12 @@ class _VetCarePageState extends State<VetCarePage> {
             // List of Contacts
             Expanded(
               child: ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 16),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
                 itemCount: _filteredContacts.length,
                 itemBuilder: (context, index) {
                   final contact = _filteredContacts[index];
                   return Container(
-                    margin: EdgeInsets.only(bottom: 12),
+                    margin: const EdgeInsets.only(bottom: 12),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(15),
@@ -123,29 +126,29 @@ class _VetCarePageState extends State<VetCarePage> {
                         BoxShadow(
                           color: Colors.black.withOpacity(0.05),
                           blurRadius: 8,
-                          offset: Offset(0, 2),
+                          offset: const Offset(0, 2),
                         ),
                       ],
                     ),
                     child: Padding(
-                      padding: EdgeInsets.all(16),
+                      padding: const EdgeInsets.all(16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
                             children: [
-                              CircleAvatar(
+                              const CircleAvatar(
                                 backgroundColor: Color(0xFFFFB300),
                                 child: Icon(
                                   Icons.medical_services,
                                   color: Colors.white,
                                 ),
                               ),
-                              SizedBox(width: 12),
+                              const SizedBox(width: 12),
                               Expanded(
                                 child: Text(
                                   contact['Name'],
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black87,
@@ -154,7 +157,7 @@ class _VetCarePageState extends State<VetCarePage> {
                               ),
                             ],
                           ),
-                          SizedBox(height: 12),
+                          const SizedBox(height: 12),
                           _buildContactInfo(
                             Icons.phone,
                             contact['Contact Number'],
@@ -177,15 +180,15 @@ class _VetCarePageState extends State<VetCarePage> {
 
             // Bottom Navigation
             Container(
-              padding: EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
               decoration: BoxDecoration(
                 color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 10,
-                    offset: Offset(0, -2),
+                    offset: const Offset(0, -2),
                   ),
                 ],
               ),
@@ -198,7 +201,7 @@ class _VetCarePageState extends State<VetCarePage> {
                     'Rule Book',
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => RulebookPage()),
+                      MaterialPageRoute(builder: (context) => const RulebookPage()),
                     ),
                   ),
                   _buildNavButton(
@@ -207,7 +210,7 @@ class _VetCarePageState extends State<VetCarePage> {
                     'Vet Care',
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => VetCarePage()),
+                      MaterialPageRoute(builder: (context) => const VetCarePage()),
                     ),
                   ),
                   _buildNavButton(
@@ -216,17 +219,7 @@ class _VetCarePageState extends State<VetCarePage> {
                     'About Me',
                     () => Navigator.push(
                       context,
-                      MaterialPageRoute(
-                        builder: (context) => AboutMePage(
-                          name: 'Millie',
-                          breed: 'Golden Retriever',
-                          age: '1yr',
-                          gender: 'Female',
-                          weight: '30 kg',
-                          medicalHistory: 'None',
-                          imageFile: null,
-                        ),
-                      ),
+                      MaterialPageRoute(builder: (context) => const AboutMePage()),
                     ),
                   ),
                 ],
@@ -240,19 +233,19 @@ class _VetCarePageState extends State<VetCarePage> {
 
   Widget _buildContactInfo(IconData icon, String text) {
     return Padding(
-      padding: EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 8),
       child: Row(
         children: [
           Icon(
             icon,
             size: 18,
-            color: Color(0xFFFFB300),
+            color: const Color(0xFFFFB300),
           ),
-          SizedBox(width: 12),
+          const SizedBox(width: 12),
           Expanded(
             child: Text(
               text,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 14,
                 color: Colors.black87,
               ),
@@ -275,20 +268,20 @@ class _VetCarePageState extends State<VetCarePage> {
         mainAxisSize: MainAxisSize.min,
         children: [
           Container(
-            padding: EdgeInsets.all(12),
+            padding: const EdgeInsets.all(12),
             decoration: BoxDecoration(
-              color: Color(0xFFFFF3E0),
+              color: const Color(0xFFFFF3E0),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              color: Color(0xFFFFB300),
+              color: const Color(0xFFFFB300),
             ),
           ),
-          SizedBox(height: 4),
+          const SizedBox(height: 4),
           Text(
             label,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.w500,
               color: Colors.black87,

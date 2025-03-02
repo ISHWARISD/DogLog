@@ -1,22 +1,59 @@
 import 'package:flutter/material.dart';
 
+import '../database_helper.dart';
 import 'UserInputPage3.dart'; // Import UserInputPage3
 
-class UserInputPage2 extends StatelessWidget {
+class UserInputPage2 extends StatefulWidget {
   final String name;
   final String breed;
   final String age;
 
-  UserInputPage2({
-    required this.name,
-    required this.breed,
-    required this.age,
-  });
+  UserInputPage2({required this.name, required this.breed, required this.age});
 
+  @override
+  _UserInputPage2State createState() => _UserInputPage2State();
+}
+
+class _UserInputPage2State extends State<UserInputPage2> {
   final _formKey = GlobalKey<FormState>();
-  final _weightController = TextEditingController();
   final _genderController = TextEditingController();
+  final _weightController = TextEditingController();
   final _medicalHistoryController = TextEditingController();
+
+  @override
+  void dispose() {
+    _genderController.dispose();
+    _weightController.dispose();
+    _medicalHistoryController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveDogInfo() async {
+    if (_formKey.currentState!.validate()) {
+      Map<String, dynamic> row = {
+        'name': widget.name,
+        'breed': widget.breed,
+        'age': widget.age,
+        'gender': _genderController.text,
+        'weight': _weightController.text,
+        'medical_history': _medicalHistoryController.text,
+      };
+      await DatabaseHelper().insertDogInfo(row);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => UserInputPage3(
+            name: widget.name,
+            breed: widget.breed,
+            age: widget.age,
+            gender: _genderController.text,
+            weight: _weightController.text,
+            medicalHistory: _medicalHistoryController.text,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +78,22 @@ class UserInputPage2 extends StatelessWidget {
                     child: Image.asset(
                       'assets/dog2.jpg',
                       fit: BoxFit.cover,
+                    ),
+                  ),
+                  Positioned(
+                    bottom: 20,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      color: const Color.fromARGB(255, 255, 179, 0).withOpacity(0.5),
+                      child: Text(
+                        "Your Dog's Story Continues!",
+                        style: TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ],
@@ -101,13 +154,12 @@ class UserInputPage2 extends StatelessWidget {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
-                      keyboardType: TextInputType.text,
                     ),
                     const SizedBox(height: 24),
                     
                     // Weight field
                     const Text(
-                      'Weight (kg)',
+                      'Weight',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
@@ -127,7 +179,7 @@ class UserInputPage2 extends StatelessWidget {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "How heavy is your pup?",
+                        hintText: "What's your dog's weight?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -158,7 +210,7 @@ class UserInputPage2 extends StatelessWidget {
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Medical History field
                     const Text(
                       'Medical History',
@@ -178,7 +230,7 @@ class UserInputPage2 extends StatelessWidget {
                         return null;
                       },
                       decoration: InputDecoration(
-                        hintText: "Past illnesses, surgeries, or allergies",
+                        hintText: "Any medical history?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
                           fontFamily: 'Poppins',
@@ -206,6 +258,7 @@ class UserInputPage2 extends StatelessWidget {
                         ),
                       ),
                       cursorColor: Color(0xFFFFB300),
+                      keyboardType: TextInputType.text,
                     ),
                     const SizedBox(height: 32),
                     
@@ -214,24 +267,7 @@ class UserInputPage2 extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // All fields are valid, proceed with saving
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UserInputPage3(
-                                  name: name,
-                                  breed: breed,
-                                  age: age,
-                                  gender: _genderController.text,
-                                  weight: _weightController.text,
-                                  medicalHistory: _medicalHistoryController.text,
-                                ),
-                              ),
-                            );
-                          }
-                        },
+                        onPressed: _saveDogInfo,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color.fromARGB(255, 230, 121, 43),
                           shape: RoundedRectangleBorder(

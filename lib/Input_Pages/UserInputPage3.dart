@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
 import '../Photopage.dart'; // Import DogPhotoPage
+import '../database_helper.dart';
 
-class UserInputPage3 extends StatelessWidget {
+class UserInputPage3 extends StatefulWidget {
   final String name;
   final String breed;
   final String age;
@@ -19,10 +20,60 @@ class UserInputPage3 extends StatelessWidget {
     required this.medicalHistory,
   });
 
+  @override
+  _UserInputPage3State createState() => _UserInputPage3State();
+}
+
+class _UserInputPage3State extends State<UserInputPage3> {
   final _formKey = GlobalKey<FormState>();
   final _vaccinationController = TextEditingController();
   final _vaccinationDateController = TextEditingController();
   final _nextDueDateController = TextEditingController();
+
+  @override
+  void dispose() {
+    _vaccinationController.dispose();
+    _vaccinationDateController.dispose();
+    _nextDueDateController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _saveVaccinationInfo() async {
+    if (_formKey.currentState!.validate()) {
+      Map<String, dynamic> row = {
+        'name': widget.name,
+        'breed': widget.breed,
+        'age': widget.age,
+        'gender': widget.gender,
+        'weight': widget.weight,
+        'medical_history': widget.medicalHistory,
+        'vaccination': _vaccinationController.text,
+        'vaccination_date': _vaccinationDateController.text,
+        'next_due_date': _nextDueDateController.text,
+      };
+      await DatabaseHelper().insertDogInfo(row);
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => DogPhotoPage(
+            name: widget.name,
+            breed: widget.breed,
+            age: widget.age,
+            gender: widget.gender,
+            weight: widget.weight,
+            medicalHistory: widget.medicalHistory,
+            vaccinationRecords: [
+              {
+                'name': _vaccinationController.text,
+                'date': _vaccinationDateController.text,
+              },
+            ],
+            nextDueDate: _nextDueDateController.text,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -226,12 +277,12 @@ class UserInputPage3 extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DogPhotoPage(
-                                name: name,
-                                breed: breed,
-                                age: age,
-                                gender: gender,
-                                weight: weight,
-                                medicalHistory: medicalHistory,
+                                name: widget.name,
+                                breed: widget.breed,
+                                age: widget.age,
+                                gender: widget.gender,
+                                weight: widget.weight,
+                                medicalHistory: widget.medicalHistory,
                                 vaccinationRecords: [],
                                 nextDueDate: '',
                               ),
@@ -261,31 +312,7 @@ class UserInputPage3 extends StatelessWidget {
                       width: double.infinity,
                       height: 50,
                       child: ElevatedButton(
-                        onPressed: () {
-                          if (_formKey.currentState!.validate()) {
-                            // All fields are valid, proceed with saving
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DogPhotoPage(
-                                  name: name,
-                                  breed: breed,
-                                  age: age,
-                                  gender: gender,
-                                  weight: weight,
-                                  medicalHistory: medicalHistory,
-                                  vaccinationRecords: [
-                                    {
-                                      'name': _vaccinationController.text,
-                                      'date': _vaccinationDateController.text,
-                                    },
-                                  ],
-                                  nextDueDate: _nextDueDateController.text,
-                                ),
-                              ),
-                            );
-                          }
-                        },
+                        onPressed: _saveVaccinationInfo,
                         style: ElevatedButton.styleFrom(
                           backgroundColor: const Color(0xFFFF6B00), // Orange button
                           shape: RoundedRectangleBorder(
