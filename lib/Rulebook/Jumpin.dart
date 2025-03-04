@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../AboutMe.dart';
 import '../VetCare.dart';
+import 'Diet_Nutrition.dart';  // Import the Diet_Nutrition page
 import 'Rulebook.dart';
 
 class GuidancePage extends StatelessWidget {
@@ -106,10 +107,21 @@ class GuidancePage extends StatelessWidget {
                   itemCount: _topics.length,
                   itemBuilder: (context, index) {
                     return _buildTopicCard(
+                      context, // Pass context for navigation
                       title: _topics[index]['title']!,
                       description: _topics[index]['description']!,
                       imagePath: _topics[index]['imagePath']!,
-                      onTap: () {},
+                      onTap: () {
+                        // Add navigation based on the topic
+                        if (_topics[index]['title'] == 'Diet & Nutrition') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => DietNutritionPage(),
+                            ),
+                          );
+                        }
+                      },
                     );
                   },
                 ),
@@ -184,7 +196,8 @@ class GuidancePage extends StatelessWidget {
     },
   ];
 
-  Widget _buildTopicCard({
+  Widget _buildTopicCard(
+    BuildContext context, {
     required String title,
     required String description,
     required String imagePath,
