@@ -1,4 +1,3 @@
-// filepath: /E:/flutter/new_try/lib/database_helper.dart
 import 'dart:io';
 
 import 'package:flutter/foundation.dart'; // Import for debugPrint
@@ -48,8 +47,18 @@ class DatabaseHelper {
         image_file TEXT
       )
     ''');
+
+    await db.execute('''
+      CREATE TABLE diet_info (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        breed TEXT,
+        age_group TEXT,
+        diet_info TEXT
+      )
+    ''');
   }
 
+  // Dog Info Methods
   Future<int> insertDogInfo(Map<String, dynamic> row) async {
     Database db = await database;
     return await db.insert('dog_info', row);
@@ -76,5 +85,37 @@ class DatabaseHelper {
     for (var dog in allDogs) {
       debugPrint("Dog Info: $dog");
     }
+  }
+
+  // Diet Info Methods
+  Future<int> insertDietInfo(Map<String, dynamic> row) async {
+    Database db = await database;
+    return await db.insert('diet_info', row);
+  }
+
+  Future<List<Map<String, dynamic>>> getDietInfo(String breed, String ageGroup) async {
+    Database db = await database;
+    return await db.query(
+      'diet_info',
+      where: 'breed = ? AND age_group = ?',
+      whereArgs: [breed, ageGroup],
+    );
+  }
+
+  Future<void> printAllDietInfo() async {
+    Database db = await database;
+
+    List<Map<String, dynamic>> allDietInfo = await db.query('diet_info');
+
+    for (var diet in allDietInfo) {
+      debugPrint("Diet Info: $diet");
+    }
+  }
+
+  // New method to get all breeds
+  Future<List<String>> getBreeds() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.rawQuery('SELECT DISTINCT breed FROM diet_info');
+    return result.map((row) => row['breed'] as String).toList();
   }
 }

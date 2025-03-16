@@ -1,7 +1,54 @@
 import 'package:flutter/material.dart';
 
-class DietNutritionPage extends StatelessWidget {
+import '../services/api_service.dart';
+
+class DietNutritionPage extends StatefulWidget {
   const DietNutritionPage({Key? key}) : super(key: key);
+
+  @override
+  _DietNutritionPageState createState() => _DietNutritionPageState();
+}
+
+class _DietNutritionPageState extends State<DietNutritionPage> {
+  final ApiService apiService = ApiService();
+  String? selectedBreed;
+  String? selectedAgeGroup;
+  String dietInfo = 'Information will appear here based on selected filters.';
+  List<String> breeds = [];
+
+  @override
+  void initState() {
+    super.initState();
+    fetchBreeds();
+  }
+
+  void fetchBreeds() async {
+    try {
+      final fetchedBreeds = await apiService.getBreeds();
+      setState(() {
+        breeds = fetchedBreeds;
+      });
+    } catch (e) {
+      setState(() {
+        dietInfo = 'Failed to load breeds: $e';
+      });
+    }
+  }
+
+  void fetchDietInfo() async {
+    if (selectedBreed != null && selectedAgeGroup != null) {
+      try {
+        final response = await apiService.getDietInfo(selectedBreed!, selectedAgeGroup!);
+        setState(() {
+          dietInfo = response['diet_info'];
+        });
+      } catch (e) {
+        setState(() {
+          dietInfo = 'No information available for the selected filters.';
+        });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,25 +67,17 @@ class DietNutritionPage extends StatelessWidget {
                 labelText: 'Select Dog Breed',
                 border: OutlineInputBorder(),
               ),
-              items: <String>[
-                'Labrador Retriever',
-                'German Shepherd',
-                'Golden Retriever',
-                'French Bulldog',
-                'Pomeranian',
-                'Beagle',
-                'Shih Tzu',
-                'Siberian Husky',
-                'Dachshund',
-                'Rottweiler'
-              ].map((String value) {
+              items: breeds.map((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
                   child: Text(value),
                 );
               }).toList(),
               onChanged: (String? newValue) {
-                // Handle breed selection
+                setState(() {
+                  selectedBreed = newValue;
+                  fetchDietInfo();
+                });
               },
             ),
             SizedBox(height: 16),
@@ -62,7 +101,10 @@ class DietNutritionPage extends StatelessWidget {
                 );
               }).toList(),
               onChanged: (String? newValue) {
-                // Handle age group selection
+                setState(() {
+                  selectedAgeGroup = newValue;
+                  fetchDietInfo();
+                });
               },
             ),
             SizedBox(height: 16),
@@ -71,7 +113,7 @@ class DietNutritionPage extends StatelessWidget {
             Expanded(
               child: Center(
                 child: Text(
-                  'Information will appear here based on selected filters.',
+                  dietInfo,
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 16),
                 ),
