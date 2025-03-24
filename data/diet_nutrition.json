@@ -1,0 +1,73 @@
+{
+    "Labrador Retriever": {
+      "Puppy (0-12 months)": "High protein, DHA for brain development, calcium-rich diet for strong bones.",
+      "Young Adult (1-3 years)": "Balanced carbs, proteins, and fats; controlled calorie intake to prevent obesity.",
+      "Mid Adult (4-5 years)": "Moderate protein with omega-3 for joint support; fiber for digestion.",
+      "Mature Adult (6-7 years)": "Lower calories, higher fiber, glucosamine supplements for joints.",
+      "Senior (7+ years)": "Soft food with antioxidants, high fiber, and omega fatty acids for aging support."
+    },
+    "German Shepherd": {
+      "Puppy (0-12 months)": "High-calcium diet for strong bones; DHA for brain development.",
+      "Young Adult (1-3 years)": "Protein-rich diet to support muscle growth; avoid grain-heavy foods.",
+      "Mid Adult (4-5 years)": "Joint-supportive food with glucosamine and omega-3; lean meats.",
+      "Mature Adult (6-7 years)": "Balanced diet with antioxidants; low-fat meals to avoid hip issues.",
+      "Senior (7+ years)": "Easy-to-digest meals; high-fiber foods with joint supplements."
+    },
+    "Golden Retriever": {
+      "Puppy (0-12 months)": "Lean protein, calcium, and DHA for cognitive development.",
+      "Young Adult (1-3 years)": "Well-balanced meals with fish oil for a shiny coat.",
+      "Mid Adult (4-5 years)": "Protein-focused meals with joint-supportive nutrients.",
+      "Mature Adult (6-7 years)": "Lower calorie intake; omega fatty acids for heart health.",
+      "Senior (7+ years)": "Soft, easily digestible meals with vitamins and minerals."
+    },
+    "French Bulldog": {
+      "Puppy (0-12 months)": "Small-breed puppy food with high protein; avoid grains.",
+      "Young Adult (1-3 years)": "Balanced diet with probiotics for digestion.",
+      "Mid Adult (4-5 years)": "Lean meats and omega-3 for skin and coat health.",
+      "Mature Adult (6-7 years)": "Low-fat meals to avoid obesity; joint-support supplements.",
+      "Senior (7+ years)": "Easy-to-chew kibble with added fiber and antioxidants."
+    },
+    "Pomeranian": {
+      "Puppy (0-12 months)": "High-calorie, protein-packed meals for energy needs.",
+      "Young Adult (1-3 years)": "Small breed-specific food with balanced nutrients.",
+      "Mid Adult (4-5 years)": "Fiber-rich meals for digestion and dental health.",
+      "Mature Adult (6-7 years)": "Low-calorie diet to prevent weight gain; omega-3 for joints.",
+      "Senior (7+ years)": "Soft, moist food with added vitamins for immune support."
+    },
+    "Beagle": {
+      "Puppy (0-12 months)": "Protein-rich diet to support growth; DHA for learning.",
+      "Young Adult (1-3 years)": "Balanced meals with lean protein and healthy carbs.",
+      "Mid Adult (4-5 years)": "Controlled portions to prevent obesity; fiber for gut health.",
+      "Mature Adult (6-7 years)": "Antioxidant-rich food with limited fat content.",
+      "Senior (7+ years)": "Soft food with probiotics for gut and immune health."
+    },
+    "Shih Tzu": {
+      "Puppy (0-12 months)": "Soft kibble with DHA and high protein for coat growth.",
+      "Young Adult (1-3 years)": "Balanced nutrition with omega-3 for a shiny coat.",
+      "Mid Adult (4-5 years)": "High-fiber diet to support digestion and prevent obesity.",
+      "Mature Adult (6-7 years)": "Soft meals with added glucosamine for joint health.",
+      "Senior (7+ years)": "Wet food or small-sized kibble with added antioxidants."
+    },
+    "Siberian Husky": {
+      "Puppy (0-12 months)": "High-protein diet with omega fatty acids for coat health.",
+      "Young Adult (1-3 years)": "Carb-rich diet to meet high energy levels.",
+      "Mid Adult (4-5 years)": "Balanced diet with essential vitamins and minerals.",
+      "Mature Adult (6-7 years)": "Joint-supportive meals with added glucosamine.",
+      "Senior (7+ years)": "Lower calorie intake; omega-3 for cognitive support."
+    },
+    "Dachshund": {
+      "Puppy (0-12 months)": "Calcium-rich diet for bone support; soft kibble.",
+      "Young Adult (1-3 years)": "Lean protein, moderate fat, and fiber-rich meals.",
+      "Mid Adult (4-5 years)": "Weight control diet; limited treats.",
+      "Mature Adult (6-7 years)": "Joint supplements and soft kibble for easy chewing.",
+      "Senior (7+ years)": "Senior-specific dog food with balanced nutrients."
+    },
+    "Rottweiler": {
+      "Puppy (0-12 months)": "Protein-rich, large-breed puppy food with added calcium.",
+      "Young Adult (1-3 years)": "Muscle-supportive diet with lean meats and healthy fats.",
+      "Mid Adult (4-5 years)": "Glucosamine and omega-3 rich diet for joint health.",
+      "Mature Adult (6-7 years)": "Lower-calorie meals with antioxidants for aging support.",
+      "Senior (7+ years)": "Soft meals with high fiber and senior-friendly nutrients."
+    }
+  }
+  

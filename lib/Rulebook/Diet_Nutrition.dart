@@ -40,7 +40,7 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
       try {
         final response = await apiService.getDietInfo(selectedBreed!, selectedAgeGroup!);
         setState(() {
-          dietInfo = response['diet_info'];
+          dietInfo = response;
         });
       } catch (e) {
         setState(() {
@@ -54,68 +54,91 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Diet & Nutrition'),
+        title: const Text('Diet & Nutrition'),
         backgroundColor: Colors.orange,
+        elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Dog Breed Dropdown
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Select Dog Breed',
-                border: OutlineInputBorder(),
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(12),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.2),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: const Offset(0, 3),
+                  ),
+                ],
               ),
-              items: breeds.map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedBreed = newValue;
-                  fetchDietInfo();
-                });
-              },
-            ),
-            SizedBox(height: 16),
-
-            // Age Group Dropdown
-            DropdownButtonFormField<String>(
-              decoration: InputDecoration(
-                labelText: 'Select Age Group',
-                border: OutlineInputBorder(),
+              child: Column(
+                children: [
+                  DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Select Dog Breed',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: breeds.map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedBreed = newValue;
+                        fetchDietInfo();
+                      });
+                    },
+                  ),
+                  const SizedBox(height: 16),
+                  DropdownButtonFormField<String>(
+                    decoration: const InputDecoration(
+                      labelText: 'Select Age Group',
+                      border: OutlineInputBorder(),
+                    ),
+                    items: const [
+                      'Puppy (0-12 months)',
+                      'Young Adult (1-3 years)',
+                      'Mid Adult (4-5 years)',
+                      'Mature Adult (6-7 years)',
+                      'Senior (7+ years)'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedAgeGroup = newValue;
+                        fetchDietInfo();
+                      });
+                    },
+                  ),
+                ],
               ),
-              items: <String>[
-                'Puppy (0-12 months)',
-                'Young Adult (1-3 years)',
-                'Mid Adult (4-5 years)',
-                'Mature Adult (6-7 years)',
-                'Senior (7+ years)'
-              ].map((String value) {
-                return DropdownMenuItem<String>(
-                  value: value,
-                  child: Text(value),
-                );
-              }).toList(),
-              onChanged: (String? newValue) {
-                setState(() {
-                  selectedAgeGroup = newValue;
-                  fetchDietInfo();
-                });
-              },
             ),
-            SizedBox(height: 16),
-
-            // Information based on filters
+            const SizedBox(height: 20),
             Expanded(
-              child: Center(
-                child: Text(
-                  dietInfo,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 16),
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: Colors.orange[50],
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    dietInfo,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  ),
                 ),
               ),
             ),
