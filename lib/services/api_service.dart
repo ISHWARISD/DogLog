@@ -1,22 +1,30 @@
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
+
+import '../database_helper.dart'; // Importing SQLite database helper
 
 class ApiService {
   final String baseUrl;
 
   ApiService({this.baseUrl = 'https://api.thedogapi.com/v1'}); // Example base URL
 
+  // Fetching breeds (existing function)
   Future<List<String>> getBreeds() async {
     try {
-      // Simulate fetching breeds from an API
       print('Fetching breeds...');
-      return ['Labrador Retriever', 'German Shepherd', 'Golden Retriever', 'French Bulldog', 'Pomeranian', 'Beagle', 'Shih Tzu', 'Siberian Husky', 'Dachshund', 'Rottweiler'];
+      return [
+        'Labrador Retriever', 'German Shepherd', 'Golden Retriever',
+        'French Bulldog', 'Pomeranian', 'Beagle', 'Shih Tzu',
+        'Siberian Husky', 'Dachshund', 'Rottweiler'
+      ];
     } catch (e) {
       throw Exception('Error connecting to server: $e');
     }
   }
 
+  // Fetching diet info (existing function)
   Future<String> getDietInfo(String breed, String ageGroup) async {
     try {
       print('Fetching diet info for breed: $breed, age group: $ageGroup...');
@@ -27,6 +35,80 @@ class ApiService {
     } catch (e) {
       print('Error reading diet information: $e');
       throw Exception('Error reading diet information: $e');
+    }
+  }
+
+  // ------------------- New Authentication Functions -------------------
+
+  // User Registration
+  Future<bool> registerUser(String username, String password) async {
+    try {
+      final dbHelper = DatabaseHelper.instance;
+      
+      // Ensure the users table exists
+      await dbHelper.ensureUsersTableExists();
+      
+      final db = await dbHelper.database;
+      
+      // Check if user already exists
+      final existingUser = await db.query(
+        'users',
+        where: 'username = ?',
+        whereArgs: [username],
+      );
+
+      if (existingUser.isNotEmpty) {
+        print('User already exists!');
+        return false;
+      }
+
+      // Hash the password
+      final hashedPassword = sha256.convert(utf8.encode(password)).toString();
+
+      // Insert new user into database
+      await db.insert('users', {
+        'username': username,
+        'password': hashedPassword,
+      });
+
+      print('User registered successfully!');
+      return true;
+    } catch (e) {
+      print('Error registering user: $e');
+      return false;
+    }
+  }
+
+  // User Login
+  Future<bool> loginUser(String username, String password) async {
+    try {
+      final dbHelper = DatabaseHelper.instance;
+      
+      // Ensure the users table exists
+      await dbHelper.ensureUsersTableExists();
+      
+      final db = await dbHelper.database;
+
+      // Hash the password
+      final hashedPassword = sha256.convert(utf8.encode(password)).toString();
+
+      // Check credentials
+      final user = await db.query(
+        'users',
+        where: 'username = ? AND password = ?',
+        whereArgs: [username, hashedPassword],
+      );
+
+      if (user.isNotEmpty) {
+        print('Login successful!');
+        return true;
+      } else {
+        print('Invalid username or password');
+        return false;
+      }
+    } catch (e) {
+      print('Error logging in user: $e');
+      return false;
     }
   }
 }

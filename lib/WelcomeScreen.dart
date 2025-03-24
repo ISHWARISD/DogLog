@@ -1,61 +1,85 @@
 import 'package:flutter/material.dart';
 
-import 'AboutMe.dart';
-import 'Input_Pages/UserInputPage1.dart';
-
-class WelcomeScreen extends StatefulWidget {
-  @override
-  _WelcomeScreenState createState() => _WelcomeScreenState();
-}
-
-class _WelcomeScreenState extends State<WelcomeScreen> {
+class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Welcome"),
-        backgroundColor: Color(0xFFFFB74D),
-      ),
-      backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFFB74D),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
+      backgroundColor: Color(0xFFFFB300), // Yellow-orange background
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Spacer(),
+          Text(
+            'Welcome\nto\nDogLog!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.black,
+            ),
+          ),
+          SizedBox(height: 50),
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              Container(
+                width: 250,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Color(0xFFFFC107), // Slightly darker yellow
+                  borderRadius: BorderRadius.circular(20),
+                ),
               ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserInputPage1()),
-                );
-              },
-              child: Text(
-                "Get Started",
-                style: TextStyle(fontSize: 18),
+              Positioned(
+                top: -30,
+                child: Image.asset(
+                  'assets/dog.png',
+                  width: 200,
+                  height: 300,
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 20),
+          Text(
+            'Because Every Dog Deserves Best!',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w500,
+              color: Colors.black,
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+            child: ElevatedButton(
+              onPressed: () => Navigator.pushNamed(context, '/login'),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                padding: EdgeInsets.symmetric(vertical: 15, horizontal: 30),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Get Started',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xFFFFB300),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Icon(Icons.arrow_forward, color: Color(0xFFFFB300)),
+                ],
               ),
             ),
-            SizedBox(height: 16),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFFFFB74D),
-                padding: EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-              ),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AboutMePage()),
-                );
-              },
-              child: Text(
-                "Back to My Pack",
-                style: TextStyle(fontSize: 18),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
