@@ -1,65 +1,132 @@
 {
-    "contacts": [
-      {
-        "Name": "Dr. Raj Sharma",
-        "Contact Number": "1234567890",
-        "Email-address": "abc@gmail.com",
-        "Available Hours": "10 am - 4 pm"
-      },
-      {
-        "Name": "Dr. Priya Mehta",
-        "Contact Number": "9876543210",
-        "Email-address": "priya.mehta@example.com",
-        "Available Hours": "9 am - 3 pm"
-      },
-      {
-        "Name": "Dr. Anil Verma",
-        "Contact Number": "8765432109",
-        "Email-address": "anil.verma@example.com",
-        "Available Hours": "11 am - 5 pm"
-      },
-      {
-        "Name": "Dr. Sunita Reddy",
-        "Contact Number": "7654321098",
-        "Email-address": "sunita.reddy@example.com",
-        "Available Hours": "8 am - 2 pm"
-      },
-      {
-        "Name": "Dr. Manish Gupta",
-        "Contact Number": "6543210987",
-        "Email-address": "manish.gupta@example.com",
-        "Available Hours": "1 pm - 7 pm"
-      },
-      {
-        "Name": "Dr. Kavita Nair",
-        "Contact Number": "5432109876",
-        "Email-address": "kavita.nair@example.com",
-        "Available Hours": "10 am - 6 pm"
-      },
-      {
-        "Name": "Dr. Rakesh Kumar",
-        "Contact Number": "4321098765",
-        "Email-address": "rakesh.kumar@example.com",
-        "Available Hours": "12 pm - 8 pm"
-      },
-      {
-        "Name": "Dr. Sneha Patil",
-        "Contact Number": "3210987654",
-        "Email-address": "sneha.patil@example.com",
-        "Available Hours": "7 am - 1 pm"
-      },
-      {
-        "Name": "Dr. Vijay Singh",
-        "Contact Number": "2109876543",
-        "Email-address": "vijay.singh@example.com",
-        "Available Hours": "2 pm - 9 pm"
-      },
-      {
-        "Name": "Dr. Meera Sharma",
-        "Contact Number": "1098765432",
-        "Email-address": "meera.sharma@example.com",
-        "Available Hours": "9 am - 5 pm"
-      }
-    ]
-  }
-  
+  "contacts": [
+    {
+      "Name": "Dr. John Doe",
+      "Contact Number": "+91 9876543210",
+      "Email-address": "johndoe@example.com",
+      "Available Hours": "9 AM - 6 PM",
+      "lat": 19.0672,
+      "lon": 72.8777
+    },
+    {
+      "Name": "Dr. Smith",
+      "Contact Number": "1234567890",
+      "Email-address": "drsmith@example.com",
+      "Available Hours": "9 AM - 6 PM",
+      "lat": 37.7749,
+      "lon": -122.4194
+    },
+    {
+      "Name": "Dr. Emily Carter",
+      "Contact Number": "9876543210",
+      "Email-address": "dremily@example.com",
+      "Available Hours": "8 AM - 4 PM",
+      "lat": 40.7128,
+      "lon": -74.0060
+    },
+    {
+      "Name": "Dr. Rahul Mehta",
+      "Contact Number": "8765432109",
+      "Email-address": "drrahul@example.com",
+      "Available Hours": "10 AM - 7 PM",
+      "lat": 28.6139,
+      "lon": 77.2090
+    },
+    {
+      "Name": "Dr. Laura Wilson",
+      "Contact Number": "7654321098",
+      "Email-address": "drlaura@example.com",
+      "Available Hours": "7 AM - 3 PM",
+      "lat": 34.0522,
+      "lon": -118.2437
+    },
+    {
+      "Name": "Dr. Hiroshi Tanaka",
+      "Contact Number": "6543210987",
+      "Email-address": "drhiroshi@example.com",
+      "Available Hours": "11 AM - 8 PM",
+      "lat": 35.6895,
+      "lon": 139.6917
+    },
+    {
+      "Name": "Dr. Sofia Martinez",
+      "Contact Number": "5432109876",
+      "Email-address": "drsofia@example.com",
+      "Available Hours": "9 AM - 5 PM",
+      "lat": 41.3851,
+      "lon": 2.1734
+    },
+    {
+      "Name": "Dr. Jacob Lee",
+      "Contact Number": "4321098765",
+      "Email-address": "drjacob@example.com",
+      "Available Hours": "12 PM - 9 PM",
+      "lat": 51.5074,
+      "lon": -0.1278
+    },
+    {
+      "Name": "Dr. Fatima Khan",
+      "Contact Number": "3210987654",
+      "Email-address": "drfatima@example.com",
+      "Available Hours": "6 AM - 2 PM",
+      "lat": 25.276987,
+      "lon": 55.296249
+    },
+    {
+      "Name": "Dr. Ethan Johnson",
+      "Contact Number": "2109876543",
+      "Email-address": "drethan@example.com",
+      "Available Hours": "10 AM - 6 PM",
+      "lat": 48.8566,
+      "lon": 2.3522
+    },
+    {
+      "Name": "Dr. Ming Wei",
+      "Contact Number": "1098765432",
+      "Email-address": "drming@example.com",
+      "Available Hours": "8 AM - 4 PM",
+      "lat": 39.9042,
+      "lon": 116.4074
+    },
+    {
+      "Name": "Dr. Priya Sharma",
+      "Contact Number": "+91 9988776655",
+      "Email-address": "priyasharma@example.com",
+      "Available Hours": "9 AM - 5 PM",
+      "lat": 19.0760,
+      "lon": 72.8777
+    },
+    {
+      "Name": "Dr. Anil Kapoor",
+      "Contact Number": "+91 8877665544",
+      "Email-address": "anilkapoor@example.com",
+      "Available Hours": "10 AM - 6 PM",
+      "lat": 19.2183,
+      "lon": 72.9781
+    },
+    {
+      "Name": "Dr. Kavita Rao",
+      "Contact Number": "+91 7766554433",
+      "Email-address": "kavitarao@example.com",
+      "Available Hours": "8 AM - 4 PM",
+      "lat": 19.0330,
+      "lon": 73.0297
+    },
+    {
+      "Name": "Dr. Ramesh Gupta",
+      "Contact Number": "+91 6655443322",
+      "Email-address": "rameshgupta@example.com",
+      "Available Hours": "7 AM - 3 PM",
+      "lat": 19.1550,
+      "lon": 72.8497
+    },
+    {
+      "Name": "Dr. Sneha Patil",
+      "Contact Number": "+91 5544332211",
+      "Email-address": "snehapatil@example.com",
+      "Available Hours": "11 AM - 7 PM",
+      "lat": 19.0760,
+      "lon": 72.8777
+    }
+  ]
+}

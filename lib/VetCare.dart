@@ -2,12 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'AboutMe.dart'; // Import AboutMe page
-import 'Rulebook/Rulebook.dart';
+import 'package:geolocator/geolocator.dart';
 
 class VetCarePage extends StatefulWidget {
-  // Add const constructor
   const VetCarePage({Key? key}) : super(key: key);
 
   @override
@@ -18,11 +15,14 @@ class _VetCarePageState extends State<VetCarePage> {
   List<dynamic> _contacts = [];
   List<dynamic> _filteredContacts = [];
   final TextEditingController _searchController = TextEditingController();
+  double _filterDistance = 10.0;
+  Position? _userLocation;
 
   @override
   void initState() {
     super.initState();
     _loadContacts();
+    _determinePosition();
     _searchController.addListener(_filterContacts);
   }
 
@@ -35,256 +35,174 @@ class _VetCarePageState extends State<VetCarePage> {
     });
   }
 
+  Future<void> _determinePosition() async {
+    bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) return;
+
+    LocationPermission permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.deniedForever) return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
+    setState(() {
+      _userLocation = position;
+      print('User Location: $_userLocation');
+      _filterContacts();
+    });
+  }
+
   void _filterContacts() {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _filteredContacts = _contacts.where((contact) {
         final name = contact['Name'].toLowerCase();
-        return name.contains(query);
+        final double lat = contact['lat'];
+        final double lon = contact['lon'];
+        if (_userLocation == null) {
+          print('User location is null');
+          return name.contains(query);
+        }
+        final distance = Geolocator.distanceBetween(
+          _userLocation!.latitude, _userLocation!.longitude, lat, lon) / 1000;
+        print('Contact: ${contact['Name']}, Distance: $distance km, Filter Distance: $_filterDistance km');
+        return name.contains(query) && distance <= _filterDistance;
       }).toList();
+      print('Filtered Contacts: ${_filteredContacts.length}');
     });
   }
 
-  @override
-  void dispose() {
-    _searchController.dispose();
-    super.dispose();
+  void _showVetDetails(Map<String, dynamic> contact) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Card(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(15),
+            ),
+            elevation: 5,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    contact['Name'],
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.phone, color: Colors.green),
+                      const SizedBox(width: 10),
+                      Text(contact['Contact Number']),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.email, color: Colors.blue),
+                      const SizedBox(width: 10),
+                      Text(contact['Email-address']),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Icon(Icons.access_time, color: Colors.orange),
+                      const SizedBox(width: 10),
+                      Text(contact['Available Hours']),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Close'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
-        title: const Text(
-          'Vet Care',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        title: const Text('Vet Care'),
         backgroundColor: const Color(0xFFFFB300),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(20),
-          ),
-        ),
       ),
-      backgroundColor: const Color(0xFFFFFBE6), // Light cream background
-      body: SafeArea(
-        child: Column(
-          children: [
-            // Search Container
-            Container(
-              margin: const EdgeInsets.all(16),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: TextField(
-                controller: _searchController,
-                decoration: InputDecoration(
-                  hintText: 'Search Vets Near You..',
-                  hintStyle: TextStyle(
-                    color: Colors.grey[400],
-                    fontFamily: 'Poppins',
-                  ),
-                  prefixIcon: const Icon(
-                    Icons.search,
-                    color: Color(0xFFFFB300),
-                  ),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 20,
-                    vertical: 15,
-                  ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Search Vets Near You..',
+                prefixIcon: const Icon(Icons.search, color: Color(0xFFFFB300)),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(15),
                 ),
               ),
             ),
-
-            // List of Contacts
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                itemCount: _filteredContacts.length,
-                itemBuilder: (context, index) {
-                  final contact = _filteredContacts[index];
-                  return Container(
-                    margin: const EdgeInsets.only(bottom: 12),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.05),
-                          blurRadius: 8,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              const CircleAvatar(
-                                backgroundColor: Color(0xFFFFB300),
-                                child: Icon(
-                                  Icons.medical_services,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const SizedBox(width: 12),
-                              Expanded(
-                                child: Text(
-                                  contact['Name'],
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.black87,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 12),
-                          _buildContactInfo(
-                            Icons.phone,
-                            contact['Contact Number'],
-                          ),
-                          _buildContactInfo(
-                            Icons.email,
-                            contact['Email-address'],
-                          ),
-                          _buildContactInfo(
-                            Icons.access_time,
-                            contact['Available Hours'],
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
-            ),
-
-            // Bottom Navigation
-            Container(
-              padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-              decoration: BoxDecoration(
+          ),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: Color(0xFFFFB300),
+              inactiveTrackColor: Color(0xFFFFE0B2),
+              trackShape: RoundedRectSliderTrackShape(),
+              trackHeight: 4.0,
+              thumbShape: RoundSliderThumbShape(enabledThumbRadius: 12.0),
+              thumbColor: Color(0xFFFFB300),
+              overlayColor: Color(0x29FFB300),
+              overlayShape: RoundSliderOverlayShape(overlayRadius: 28.0),
+              tickMarkShape: RoundSliderTickMarkShape(),
+              activeTickMarkColor: Color(0xFFFFB300),
+              inactiveTickMarkColor: Color(0xFFFFE0B2),
+              valueIndicatorShape: PaddleSliderValueIndicatorShape(),
+              valueIndicatorColor: Color(0xFFFFB300),
+              valueIndicatorTextStyle: TextStyle(
                 color: Colors.white,
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
-                    blurRadius: 10,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  _buildNavButton(
-                    context,
-                    Icons.book,
-                    'Rule Book',
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const RulebookPage()),
-                    ),
-                  ),
-                  _buildNavButton(
-                    context,
-                    Icons.home,
-                    'Vet Care',
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const VetCarePage()),
-                    ),
-                  ),
-                  _buildNavButton(
-                    context,
-                    Icons.pets,
-                    'About Me',
-                    () => Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const AboutMePage()),
-                    ),
-                  ),
-                ],
               ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildContactInfo(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Row(
-        children: [
-          Icon(
-            icon,
-            size: 18,
-            color: const Color(0xFFFFB300),
+            child: Slider(
+              value: _filterDistance,
+              min: 1,
+              max: 50,
+              divisions: 10,
+              label: "${_filterDistance.round()} km",
+              onChanged: (value) {
+                setState(() {
+                  _filterDistance = value;
+                  _filterContacts();
+                });
+              },
+            ),
           ),
-          const SizedBox(width: 12),
           Expanded(
-            child: Text(
-              text,
-              style: const TextStyle(
-                fontSize: 14,
-                color: Colors.black87,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNavButton(
-    BuildContext context,
-    IconData icon,
-    String label,
-    VoidCallback onTap,
-  ) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: const Color(0xFFFFF3E0),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Icon(
-              icon,
-              color: const Color(0xFFFFB300),
-            ),
-          ),
-          const SizedBox(height: 4),
-          Text(
-            label,
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.w500,
-              color: Colors.black87,
+            child: ListView.builder(
+              itemCount: _filteredContacts.length,
+              itemBuilder: (context, index) {
+                final contact = _filteredContacts[index];
+                return ListTile(
+                  leading: const Icon(Icons.medical_services, color: Color(0xFFFFB300)),
+                  title: Text(contact['Name']),
+                  subtitle: Text(contact['Contact Number']),
+                  onTap: () => _showVetDetails(contact),
+                );
+              },
             ),
           ),
         ],
