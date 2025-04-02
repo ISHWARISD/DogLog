@@ -69,6 +69,7 @@ class ApiService {
       await db.insert('users', {
         'username': username,
         'password': hashedPassword,
+        'onboardingCompleted': 0, // New users have not completed onboarding
       });
 
       print('User registered successfully!');
@@ -80,7 +81,7 @@ class ApiService {
   }
 
   // User Login
-  Future<bool> loginUser(String username, String password) async {
+  Future<Map<String, dynamic>> loginUser(String username, String password) async {
     try {
       final dbHelper = DatabaseHelper.instance;
       
@@ -101,13 +102,45 @@ class ApiService {
 
       if (user.isNotEmpty) {
         print('Login successful!');
-        return true;
+        bool onboardingCompleted = user.first['onboardingCompleted'] == 1;
+
+        return {
+          'success': true,
+          'onboardingCompleted': onboardingCompleted,
+          'email': user.first['username'], // Ensure email is returned
+        };
       } else {
         print('Invalid username or password');
-        return false;
+        return {'success': false};
       }
     } catch (e) {
       print('Error logging in user: $e');
+      return {'success': false};
+    }
+  }
+
+  // Mark user onboarding as completed
+  Future<bool> completeUserOnboarding(String username) async {
+    try {
+      final dbHelper = DatabaseHelper.instance;
+      final db = await dbHelper.database;
+
+      int updated = await db.update(
+        'users',
+        {'onboardingCompleted': 1},
+        where: 'username = ?',
+        whereArgs: [username],
+      );
+
+      if (updated > 0) {
+        print('Onboarding marked as completed for user: $username');
+        return true;
+      } else {
+        print('Failed to mark onboarding as completed for user: $username');
+        return false;
+      }
+    } catch (e) {
+      print('Error completing onboarding: $e');
       return false;
     }
   }

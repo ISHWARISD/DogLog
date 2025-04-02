@@ -4,6 +4,10 @@ import '../database_helper.dart';
 import 'UserInputPage2.dart'; // Import UserInputPage2
 
 class UserInputPage1 extends StatefulWidget {
+  final String email; // Accept email as a parameter
+
+  UserInputPage1({required this.email}); // Constructor to accept email
+
   @override
   _UserInputPage1State createState() => _UserInputPage1State();
 }
@@ -24,22 +28,40 @@ class _UserInputPage1State extends State<UserInputPage1> {
 
   Future<void> _saveDogInfo() async {
     if (_formKey.currentState!.validate()) {
-      Map<String, dynamic> row = {
-        'name': _nameController.text,
-        'breed': _breedController.text,
-        'age': _ageController.text,
-      };
-      await DatabaseHelper().insertDogInfo(row);
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => UserInputPage2(
-            name: _nameController.text,
-            breed: _breedController.text,
-            age: _ageController.text,
+      try {
+        // Create the data to be saved
+        Map<String, dynamic> row = {
+          'name': _nameController.text,
+          'breed': _breedController.text,
+          'age': _ageController.text,
+          'email': widget.email, // Save the email with the dog info
+        };
+        
+        // Insert data into database
+        final dbHelper = DatabaseHelper.instance; // Use singleton instance if available
+        await dbHelper.insertDogInfo(row);
+        
+        // Navigate to the next page after successful database operation
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => UserInputPage2(
+              name: _nameController.text,
+              breed: _breedController.text,
+              age: _ageController.text,
+            ),
           ),
-        ),
-      );
+        );
+      } catch (e) {
+        // Handle any errors that might occur during database operations
+        print('Error saving dog info: $e');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Failed to save information. Please try again.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
     }
   }
 
@@ -48,9 +70,9 @@ class _UserInputPage1State extends State<UserInputPage1> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Pawfile Setup'),
-        backgroundColor: Color(0xFFFFB300), // Set the same background color as WelcomeScreen
+        backgroundColor: Color(0xFFFFB300),
       ),
-      backgroundColor: Colors.white, // Set the background color to white
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -58,7 +80,7 @@ class _UserInputPage1State extends State<UserInputPage1> {
             Container(
               color: const Color(0xFFFFB300),
               width: double.infinity,
-              height: MediaQuery.of(context).size.height * 0.55, // Increase the height to 55% of screen height
+              height: MediaQuery.of(context).size.height * 0.55,
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -117,34 +139,17 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         hintText: "What's your dog name?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
-                          fontFamily: 'Poppins',
                           fontSize: 14,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFFFFB300)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
                       ),
                       cursorColor: Color(0xFFFFB300),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Breed field
                     const Text(
                       'Breed',
@@ -167,34 +172,17 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         hintText: "Tell Us About Their Breed!",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
-                          fontFamily: 'Poppins',
                           fontSize: 14,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFFFFB300)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
                       ),
                       cursorColor: Color(0xFFFFB300),
                     ),
                     const SizedBox(height: 24),
-                    
+
                     // Age field
                     const Text(
                       'Age',
@@ -220,35 +208,18 @@ class _UserInputPage1State extends State<UserInputPage1> {
                         hintText: "How Old Is Your Furry Friend?",
                         hintStyle: TextStyle(
                           color: Colors.grey[400],
-                          fontFamily: 'Poppins',
                           fontSize: 14,
                         ),
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
                           borderSide: BorderSide(color: Colors.grey[300]!),
                         ),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey[300]!),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Color(0xFFFFB300)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.red),
-                        ),
                       ),
                       cursorColor: Color(0xFFFFB300),
                       keyboardType: TextInputType.number,
                     ),
                     const SizedBox(height: 32),
-                    
+
                     // Save & Continue button
                     SizedBox(
                       width: double.infinity,

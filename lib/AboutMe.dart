@@ -7,12 +7,7 @@ import 'VetCare.dart'; // Import VetCare page
 import 'database_helper.dart'; // Import DatabaseHelper
 
 class AboutMePage extends StatefulWidget {
-  // Supporting multiple constructor formats
   const AboutMePage({Key? key}) : super(key: key);
-  
-  // Add this default constructor as a fallback
-  // ignore: prefer_const_constructors_in_immutables
-  AboutMePage.create() : super();
 
   @override
   _AboutMePageState createState() => _AboutMePageState();
@@ -28,10 +23,14 @@ class _AboutMePageState extends State<AboutMePage> {
   }
 
   Future<void> _fetchDogInfo() async {
-    Map<String, dynamic>? info = await DatabaseHelper().getLatestDogInfo();
-    setState(() {
-      dogInfo = info;
-    });
+    try {
+      Map<String, dynamic>? info = await DatabaseHelper().getLatestDogInfo();
+      setState(() {
+        dogInfo = info;
+      });
+    } catch (e) {
+      debugPrint('Error fetching dog info: $e');
+    }
   }
 
   @override
@@ -88,7 +87,7 @@ class _AboutMePageState extends State<AboutMePage> {
 
               // Dog name
               Text(
-                'Hi, ${dogInfo!['name']}..',
+                'Hi, ${dogInfo?['name'] ?? 'Your Dog'}..',
                 style: const TextStyle(
                   fontSize: 28,
                   fontWeight: FontWeight.bold,
@@ -97,13 +96,21 @@ class _AboutMePageState extends State<AboutMePage> {
               const SizedBox(height: 16),
 
               // Dog photo
-              if (dogInfo!['image_file'] != null)
+              if (dogInfo?['image_file'] != null && File(dogInfo!['image_file']).existsSync())
                 Center(
                   child: Image.file(
                     File(dogInfo!['image_file']),
                     height: 200,
                     width: 200,
                     fit: BoxFit.cover,
+                  ),
+                )
+              else
+                Center(
+                  child: const Icon(
+                    Icons.pets,
+                    size: 100,
+                    color: Colors.white,
                   ),
                 ),
               const SizedBox(height: 16),
@@ -112,11 +119,11 @@ class _AboutMePageState extends State<AboutMePage> {
               Row(
                 children: [
                   Expanded(
-                    child: _buildInfoCard('Breed', dogInfo!['breed']),
+                    child: _buildInfoCard('Breed', dogInfo?['breed'] ?? 'Unknown'),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildInfoCard('Age', dogInfo!['age']),
+                    child: _buildInfoCard('Age', dogInfo?['age'] ?? 'Unknown'),
                   ),
                 ],
               ),
@@ -124,11 +131,11 @@ class _AboutMePageState extends State<AboutMePage> {
               Row(
                 children: [
                   Expanded(
-                    child: _buildInfoCard('Weight', '${dogInfo!['weight']} kg'),
+                    child: _buildInfoCard('Weight', '${dogInfo?['weight'] ?? 'Unknown'} kg'),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
-                    child: _buildInfoCard('Gender', dogInfo!['gender']),
+                    child: _buildInfoCard('Gender', dogInfo?['gender'] ?? 'Unknown'),
                   ),
                 ],
               ),
@@ -137,7 +144,7 @@ class _AboutMePageState extends State<AboutMePage> {
               // Medical History
               _buildExpandableCard(
                 'Medical History',
-                Text(dogInfo!['medical_history']),
+                Text(dogInfo?['medical_history'] ?? 'No medical history available'),
               ),
               const SizedBox(height: 16),
 
@@ -160,7 +167,7 @@ class _AboutMePageState extends State<AboutMePage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>  VetCarePage()),
+                        MaterialPageRoute(builder: (context) => VetCarePage()),
                       );
                     },
                     child: _buildNavItem(Icons.home, 'Vet Care'),

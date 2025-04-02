@@ -33,7 +33,7 @@ class DatabaseHelper {
 
     return await openDatabase(
       path,
-      version: 2, // Incremented version number
+      version: 4, // Incremented version number for new schema
       onCreate: _onCreate,
       onUpgrade: _onUpgrade,
     );
@@ -54,7 +54,8 @@ class DatabaseHelper {
         vaccination TEXT,
         vaccination_date TEXT,
         next_due_date TEXT,
-        image_file TEXT
+        image_file TEXT,
+        email TEXT
       )
     ''');
 
@@ -71,7 +72,8 @@ class DatabaseHelper {
       CREATE TABLE users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT NOT NULL,
-        password TEXT NOT NULL
+        password TEXT NOT NULL,
+        onboarding_completed BOOLEAN NOT NULL DEFAULT 0
       )
     ''');
     
@@ -98,6 +100,38 @@ class DatabaseHelper {
         debugPrint('Users table already exists, skipping creation');
       }
     }
+    
+    if (oldVersion < 3) {
+      // Add onboarding_completed column to users table if it doesn't exist
+      var columns = await db.rawQuery("PRAGMA table_info(users)");
+      bool hasOnboardingColumn = columns.any((column) => column['name'] == 'onboarding_completed');
+      
+      if (!hasOnboardingColumn) {
+        debugPrint('Adding onboarding_completed column to users table');
+        await db.execute('''
+          ALTER TABLE users ADD COLUMN onboarding_completed BOOLEAN NOT NULL DEFAULT 0
+        ''');
+        debugPrint('Added onboarding_completed column');
+      } else {
+        debugPrint('onboarding_completed column already exists');
+      }
+    }
+
+    if (oldVersion < 4) {
+      // Add email column to dog_info table if it doesn't exist
+      var columns = await db.rawQuery("PRAGMA table_info(dog_info)");
+      bool hasEmailColumn = columns.any((column) => column['name'] == 'email');
+      
+      if (!hasEmailColumn) {
+        debugPrint('Adding email column to dog_info table');
+        await db.execute('''
+          ALTER TABLE dog_info ADD COLUMN email TEXT
+        ''');
+        debugPrint('Added email column to dog_info table');
+      } else {
+        debugPrint('email column already exists');
+      }
+    }
   }
 
   // Utility method to check if the users table exists
@@ -113,7 +147,8 @@ class DatabaseHelper {
           CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            onboarding_completed BOOLEAN NOT NULL DEFAULT 0
           )
         ''');
         debugPrint('Users table created');
@@ -131,18 +166,44 @@ class DatabaseHelper {
   // Insert Dog Info
   Future<int> insertDogInfo(Map<String, dynamic> row) async {
     final db = await database;
-    return await db.insert('dog_info', row);
+    try {
+      return await db.insert('dog_info', row);
+    } catch (e) {
+      debugPrint('Error inserting dog info: $e');
+      return -1; // Return -1 to indicate failure
+    }
   }
 
   // Fetch Latest Dog Info
   Future<Map<String, dynamic>?> getLatestDogInfo() async {
     final db = await database;
-    List<Map<String, dynamic>> result = await db.query(
-      'dog_info',
-      orderBy: 'id DESC',
-      limit: 1,
-    );
-    return result.isNotEmpty ? result.first : null;
+    try {
+      // Query the latest dog info by ordering by ID in descending order
+      List<Map<String, dynamic>> result = await db.query(
+        'dog_info',
+        orderBy: 'id DESC',
+        limit: 1,
+      );
+      return result.isNotEmpty ? result.first : null;
+    } catch (e) {
+      debugPrint('Error fetching latest dog info: $e');
+      return null;
+    }
+  }
+
+  // Fetch Dog Info by Email
+  Future<List<Map<String, dynamic>>> getDogInfoByEmail(String email) async {
+    final db = await database;
+    try {
+      return await db.query(
+        'dog_info',
+        where: 'email = ?',
+        whereArgs: [email],
+      );
+    } catch (e) {
+      debugPrint('Error fetching dog info by email: $e');
+      return [];
+    }
   }
 
   // Print All Dog Info (For Debugging)
@@ -152,64 +213,5 @@ class DatabaseHelper {
     for (var dog in allDogs) {
       debugPrint("Dog Info: $dog");
     }
-  }
-
-  // Insert Diet Info
-  Future<int> insertDietInfo(Map<String, dynamic> row) async {
-    final db = await database;
-    return await db.insert('diet_info', row);
-  }
-
-  // Fetch Diet Info for Specific Breed and Age Group
-  Future<List<Map<String, dynamic>>> getDietInfo(String breed, String ageGroup) async {
-    final db = await database;
-    return await db.query(
-      'diet_info',
-      where: 'breed = ? AND age_group = ?',
-      whereArgs: [breed, ageGroup],
-    );
-  }
-
-  // Print All Diet Info (For Debugging)
-  Future<void> printAllDietInfo() async {
-    final db = await database;
-    List<Map<String, dynamic>> allDietInfo = await db.query('diet_info');
-    for (var diet in allDietInfo) {
-      debugPrint("Diet Info: $diet");
-    }
-  }
-
-  // Get All Unique Breeds from Diet Info
-  Future<List<String>> getBreeds() async {
-    final db = await database;
-    List<Map<String, dynamic>> result = await db.rawQuery('SELECT DISTINCT breed FROM diet_info');
-    return result.map((row) => row['breed'] as String).toList();
-  }
-
-  // Delete Dog Info by ID
-  Future<int> deleteDogInfo(int id) async {
-    final db = await database;
-    return await db.delete('dog_info', where: 'id = ?', whereArgs: [id]);
-  }
-
-  // Delete Diet Info by Breed and Age Group
-  Future<int> deleteDietInfo(String breed, String ageGroup) async {
-    final db = await database;
-    return await db.delete(
-      'diet_info',
-      where: 'breed = ? AND age_group = ?',
-      whereArgs: [breed, ageGroup],
-    );
-  }
-
-  // Update Dog Info by ID
-  Future<int> updateDogInfo(int id, Map<String, dynamic> row) async {
-    final db = await database;
-    return await db.update(
-      'dog_info',
-      row,
-      where: 'id = ?',
-      whereArgs: [id],
-    );
   }
 }

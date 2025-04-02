@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../AboutMe.dart'; // Import the AboutMe page
+import '../Input_Pages/UserInputPage1.dart'; // Import the user input page
 import '../services/api_service.dart';
 
 class LoginPage extends StatefulWidget {
@@ -13,7 +14,7 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController passwordController = TextEditingController();
   final ApiService apiService = ApiService();
   bool isLoading = false;
-  
+
   // Quotes about dogs and their owners
   final List<String> dogQuotes = [
     "When I needed a hand, I found your paw.",
@@ -26,35 +27,56 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {
       isLoading = true;
     });
-    
-    String email = emailController.text;
-    String password = passwordController.text;
-    
+
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
+
     if (email.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Email and password cannot be empty"))
+        SnackBar(content: Text("Email and password cannot be empty")),
       );
       setState(() {
         isLoading = false;
       });
       return;
     }
-    
-    bool success = await apiService.loginUser(email, password);
 
-    setState(() {
-      isLoading = false;
-    });
+    try {
+      Map<String, dynamic> loginResult = await apiService.loginUser(email, password);
 
-    if (success) {
-      // Navigate to AboutMe page instead of '/home'
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => AboutMePage()),
-      );
-    } else {
+      setState(() {
+        isLoading = false;
+      });
+
+      if (loginResult['success']) {
+        // Check if onboarding is completed to determine navigation
+        if (loginResult['onboardingCompleted']) {
+          // Existing user - navigate to About Me page
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => AboutMePage()),
+          );
+        } else {
+          // New user - navigate to input page
+          // Use the email that was entered in the login form instead of relying on the returned value
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => UserInputPage1(email: email),
+            ),
+          );
+        }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Login failed. Check your credentials.")),
+        );
+      }
+    } catch (e) {
+      setState(() {
+        isLoading = false;
+      });
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Login failed. Check your credentials."))
+        SnackBar(content: Text("An error occurred. Please try again.")),
       );
     }
   }
@@ -63,7 +85,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // Select a random quote
     final randomQuote = dogQuotes[DateTime.now().microsecond % dogQuotes.length];
-    
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
@@ -122,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              
+
               // Quote section
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 30, vertical: 24),
@@ -148,7 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                   ],
                 ),
               ),
-              
+
               // Login form
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 30),
@@ -164,7 +186,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(height: 24),
-                    
+
                     // Email field
                     TextField(
                       controller: emailController,
@@ -188,7 +210,7 @@ class _LoginPageState extends State<LoginPage> {
                       keyboardType: TextInputType.emailAddress,
                     ),
                     SizedBox(height: 20),
-                    
+
                     // Password field
                     TextField(
                       controller: passwordController,
@@ -212,7 +234,7 @@ class _LoginPageState extends State<LoginPage> {
                       obscureText: true,
                     ),
                     SizedBox(height: 10),
-                    
+
                     // Forgot password
                     Align(
                       alignment: Alignment.centerRight,
@@ -225,7 +247,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ),
                     SizedBox(height: 20),
-                    
+
                     // Login button
                     ElevatedButton(
                       onPressed: isLoading ? null : () => login(context),
@@ -257,7 +279,7 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                     ),
                     SizedBox(height: 30),
-                    
+
                     // Sign up text
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -278,7 +300,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                       ],
                     ),
-                    
+
                     // Dog paw icon at bottom
                     Center(
                       child: Padding(
