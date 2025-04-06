@@ -2,28 +2,28 @@ import 'package:flutter/material.dart';
 
 import '../services/api_service.dart';
 
-class DietNutritionPage extends StatefulWidget {
-  const DietNutritionPage({Key? key}) : super(key: key);
+class FunPage extends StatefulWidget {
+  const FunPage({Key? key}) : super(key: key);
 
   @override
-  _DietNutritionPageState createState() => _DietNutritionPageState();
+  _FunPageState createState() => _FunPageState();
 }
 
-class _DietNutritionPageState extends State<DietNutritionPage> {
+class _FunPageState extends State<FunPage> {
   final ApiService apiService = ApiService();
   String? selectedBreed;
   String? selectedAgeGroup;
-  String dietInfo = 'Select a breed and age group to view dietary recommendations';
+  String funInfo = 'Select a breed and age group to view fun & socialization tips';
   List<String> breeds = [];
   bool isLoading = false;
 
   // Fresh, minimalist color palette
-  final Color primaryYellow = const Color(0xFFFFC42B);  // Vibrant but not harsh yellow
-  final Color secondaryYellow = const Color(0xFFFFD966); // Softer yellow
-  final Color accentYellow = const Color.fromARGB(255, 255, 255, 153);    // Very light yellow
-  final Color backgroundColor = const Color(0xFFFFFBF2); // Off-white with yellow tint
-  final Color textColor = const Color(0xFF333333);       // Near-black for text
-  final Color subtleGrey = const Color(0xFFEEEEEE);      // Subtle grey for dividers
+  final Color primaryBlue = const Color(0xFF2196F3); // Vibrant blue
+  final Color secondaryBlue = const Color(0xFF64B5F6); // Softer blue
+  final Color accentBlue = const Color(0xFFBBDEFB); // Very light blue
+  final Color backgroundColor = const Color(0xFFE3F2FD); // Off-white with blue tint
+  final Color textColor = const Color(0xFF333333); // Near-black for text
+  final Color subtleGrey = const Color(0xFFEEEEEE); // Subtle grey for dividers
 
   @override
   void initState() {
@@ -41,24 +41,24 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
       });
     } catch (e) {
       setState(() {
-        dietInfo = 'Failed to load breeds: $e';
+        funInfo = 'Failed to load breeds: $e';
         isLoading = false;
       });
     }
   }
 
-  void fetchDietInfo() async {
+  void fetchFunInfo() async {
     if (selectedBreed != null && selectedAgeGroup != null) {
       setState(() => isLoading = true);
       try {
-        final response = await apiService.getDietInfo(selectedBreed!, selectedAgeGroup!);
+        final response = await apiService.getFunInfo(selectedBreed!, selectedAgeGroup!);
         setState(() {
-          dietInfo = response;
+          funInfo = response.toString(); // Convert the map to a string for display
           isLoading = false;
         });
       } catch (e) {
         setState(() {
-          dietInfo = 'No information available for the selected filters.';
+          funInfo = 'No information available for the selected filters.';
           isLoading = false;
         });
       }
@@ -71,14 +71,14 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         title: const Text(
-          'Dog Nutrition Guide',
+          'Fun & Socialization Guide',
           style: TextStyle(
-            fontWeight: FontWeight.w600, 
+            fontWeight: FontWeight.w600,
             fontSize: 18,
             color: Colors.white,
           ),
         ),
-        backgroundColor: primaryYellow,
+        backgroundColor: primaryBlue,
         elevation: 0,
         centerTitle: true,
         actions: [
@@ -98,21 +98,21 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
             children: [
               // Simple header
               _buildHeader(),
-              
+
               const SizedBox(height: 24),
-              
+
               // Filter Section
               _buildFilterSection(),
-              
+
               const SizedBox(height: 24),
-              
+
               // Information Display Section
               Expanded(
                 child: AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: isLoading
                       ? _buildLoadingIndicator()
-                      : _buildDietInfoCard(),
+                      : _buildFunInfoCard(),
                 ),
               ),
             ],
@@ -127,7 +127,7 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Tailored Nutrition',
+          'Fun & Socialization Tips',
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
@@ -135,14 +135,6 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
             letterSpacing: -0.5,
           ),
         ),
-        // const SizedBox(height: 6),
-        // Text(
-        //   'Breed-specific dietary recommendations for your dog',
-        //   style: TextStyle(
-        //     fontSize: 14,
-        //     color: textColor.withOpacity(0.6),
-        //   ),
-        // ),
       ],
     );
   }
@@ -180,7 +172,7 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
             onChanged: (String? newValue) {
               setState(() {
                 selectedBreed = newValue;
-                fetchDietInfo();
+                fetchFunInfo();
               });
             },
           ),
@@ -198,7 +190,7 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
             onChanged: (String? newValue) {
               setState(() {
                 selectedAgeGroup = newValue;
-                fetchDietInfo();
+                fetchFunInfo();
               });
             },
           ),
@@ -237,9 +229,6 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
               isExpanded: true,
               icon: Icon(Icons.keyboard_arrow_down, color: textColor.withOpacity(0.6)),
               style: TextStyle(color: textColor, fontSize: 15),
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              borderRadius: BorderRadius.circular(8),
-              dropdownColor: Colors.white,
               items: items.map((String item) {
                 return DropdownMenuItem<String>(
                   value: item,
@@ -269,12 +258,12 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircularProgressIndicator(
-            valueColor: AlwaysStoppedAnimation<Color>(primaryYellow),
+            valueColor: AlwaysStoppedAnimation<Color>(primaryBlue),
             strokeWidth: 2,
           ),
           const SizedBox(height: 20),
           Text(
-            'Loading nutrition information...',
+            'Loading fun & socialization tips...',
             style: TextStyle(
               color: textColor.withOpacity(0.7),
               fontSize: 14,
@@ -285,9 +274,9 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
     );
   }
 
-  Widget _buildDietInfoCard() {
+  Widget _buildFunInfoCard() {
     return Container(
-      key: const ValueKey('dietInfo'),
+      key: const ValueKey('funInfo'),
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(12),
@@ -307,44 +296,30 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
               // Header
               Container(
                 padding: const EdgeInsets.all(16),
-                color: primaryYellow,
+                color: primaryBlue,
                 child: Row(
                   children: [
                     Icon(
-                      _getAgeGroupIcon(),
+                      Icons.celebration,
                       size: 20,
                       color: Colors.white,
                     ),
                     const SizedBox(width: 12),
                     Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            selectedBreed!,
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.white,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            selectedAgeGroup!,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: Colors.white,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                      child: Text(
+                        selectedBreed!,
+                        style: const TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.white,
+                        ),
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
               ),
-              
+
               // Content
               Expanded(
                 child: SingleChildScrollView(
@@ -354,7 +329,7 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        'Dietary Recommendations',
+                        'Fun & Socialization Tips',
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -368,37 +343,11 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Text(
-                          dietInfo,
+                          funInfo,
                           style: TextStyle(
                             fontSize: 15,
                             height: 1.5,
                             color: textColor,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 16),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: TextButton.icon(
-                          icon: Icon(Icons.download_outlined, 
-                            color: primaryYellow, 
-                            size: 18
-                          ),
-                          label: Text(
-                            'Download Guide',
-                            style: TextStyle(
-                              color: primaryYellow,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                          onPressed: () {
-                            // Download action
-                          },
-                          style: TextButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 16, 
-                              vertical: 8
-                            ),
                           ),
                         ),
                       ),
@@ -414,13 +363,13 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        Icons.pets_outlined,
+                        Icons.celebration,
                         size: 40,
-                        color: primaryYellow.withOpacity(0.7),
+                        color: primaryBlue.withOpacity(0.7),
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        dietInfo,
+                        funInfo,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 15,
@@ -436,15 +385,5 @@ class _DietNutritionPageState extends State<DietNutritionPage> {
         ),
       ),
     );
-  }
-
-  IconData _getAgeGroupIcon() {
-    if (selectedAgeGroup == null) return Icons.help_outline;
-    if (selectedAgeGroup!.contains('Puppy')) return Icons.child_friendly;
-    if (selectedAgeGroup!.contains('Young')) return Icons.directions_run;
-    if (selectedAgeGroup!.contains('Mid')) return Icons.fitness_center;
-    if (selectedAgeGroup!.contains('Mature')) return Icons.elderly_woman;
-    if (selectedAgeGroup!.contains('Senior')) return Icons.elderly;
-    return Icons.pets;
   }
 }

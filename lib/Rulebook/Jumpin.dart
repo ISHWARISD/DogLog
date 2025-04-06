@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import '../AboutMe.dart';
 import '../VetCare.dart';
 import 'Diet_Nutrition.dart';  // Import the Diet_Nutrition page
+import 'Fun.dart';
+import 'Health_Hygiene.dart';
+import 'MedicalCare.dart';
 import 'Rulebook.dart';
 
 class GuidancePage extends StatelessWidget {
@@ -118,6 +121,27 @@ class GuidancePage extends StatelessWidget {
                             context,
                             MaterialPageRoute(
                               builder: (context) => DietNutritionPage(),
+                            ),
+                          );
+                        } else if (_topics[index]['title'] == 'Health & Hygiene') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => HealthHygienePage(),
+                            ),
+                          );
+                        } else if (_topics[index]['title'] == 'Vaccination & Medical Care') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => MedicalCarePage(),
+                            ),
+                          );
+                        } else if (_topics[index]['title'] == 'Fun & Socialization') {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FunPage(),
                             ),
                           );
                         }

@@ -1,0 +1,72 @@
+{
+    "Labrador Retriever": {
+      "Puppy (0-12 months)": "Brush 2-3x/week with slicker brush; bathe monthly with oatmeal shampoo. Clean ears weekly (prone to infections). Trim nails every 2 weeks. Start tooth brushing routine. Vaccination schedule: DHPP every 3-4 weeks until 16 weeks, rabies at 12-16 weeks.",
+      "Young Adult (1-3 years)": "Daily brushing during shedding seasons; bath every 6-8 weeks. Check/clean ears weekly. Dental chews daily + brushing 3x/week. Annual vet checkups. Heartworm prevention monthly. Exercise: 60-90 mins daily (swimming ideal).",
+      "Mid Adult (4-5 years)": "Increase to weekly professional grooming. Monitor for hip dysplasia signs. Bi-annual dental cleanings recommended. Anal gland checks monthly. Exercise: 45-60 mins twice daily. Consider joint supplements.",
+      "Mature Adult (6-7 years)": "Senior bloodwork annually. More frequent nail trims (every 10 days). Special attention to paw pads. Reduced-impact exercise (swimming, slow walks). Monitor for arthritis. Increase grooming to control odor.",
+      "Senior (7+ years)": "Gentle daily brushing. Bath only when needed (use warm water). Memory foam bedding. Ramp for car/house access. Shorter, more frequent walks. Bi-annual senior wellness exams. Monitor for cognitive decline."
+    },
+    "German Shepherd": {
+      "Puppy (0-12 months)": "Brush daily with undercoat rake; bathe every 8 weeks. Clean ears 2x/week (prone to infections). Start handling paws early. Vaccination: Lepto booster important. Socialization critical for temperament.",
+      "Young Adult (1-3 years)": "Professional grooming every 6 weeks. Daily teeth brushing. Nail trims every 3 weeks. Exercise: 90+ mins daily (mental + physical). Watch for degenerative myelopathy signs. Hip/elbow evaluations recommended.",
+      "Mid Adult (4-5 years)": "Increase omega-3s for coat health. Bi-annual dental scaling. Monitor for bloat (raised feeders help). Exercise: Structured activities like agility. Monthly gland expressions.",
+      "Mature Adult (6-7 years)": "Orthopedic bedding essential. More frequent vet visits (quarterly). Gentle daily massage for circulation. Adjust exercise to 60 mins split sessions. Moisturize paw pads weekly.",
+      "Senior (7+ years)": "Soft bristle brush only. Warm water baths. Ramps for mobility. Senior blood panels quarterly. Short, frequent toilet walks. Cognitive enrichment activities daily."
+    },
+    "Golden Retriever": {
+      "Puppy (0-12 months)": "Brush daily with pin brush; bathe monthly. Clean ears 2x/week. Start nail filing early. Vaccination: Include Lyme where prevalent. Socialization with other dogs important.",
+      "Young Adult (1-3 years)": "Professional de-shedding every 8 weeks. Daily teeth cleaning. Check webbing between toes weekly. Exercise: 60+ mins with water retrieves. Annual hip screenings recommended.",
+      "Mid Adult (4-5 years)": "Therapeutic baths for skin folds. Bi-annual dental cleanings. Nail caps if prone to scratching. Monitor for lymphoma signs. Exercise: Swimming ideal for joints.",
+      "Mature Adult (6-7 years)": "Electric toothbrush recommended. Orthopedic grooming tables. Ear cleaning after every swim. Reduced-impact exercise. Begin mobility supplements.",
+      "Senior (7+ years)": "Daily gentle grooming. Non-slip flooring essential. Heated beds in winter. Short, sniff-heavy walks. Monitor for hemangiosarcoma. Night lights for vision."
+    },
+    "French Bulldog": {
+      "Puppy (0-12 months)": "Weekly face fold cleaning with medicated wipes. Bath every 3 weeks. Soft brush only. Nail trims every 10 days. Vaccination: Avoid over-vaccination (titer testing). Cooling mats for temperature regulation.",
+      "Young Adult (1-3 years)": "Daily wrinkle cleaning. Professional grooming quarterly. Teeth brushing 4x/week. Exercise: 30 mins max in cool hours. Harness only (no collars). Annual spine checks.",
+      "Mid Adult (4-5 years)": "Special attention to tail pocket hygiene. Dental water additives. Nail grinding preferred. Monitor breathing (Brachycephalic Syndrome). Swimming with life vest only.",
+      "Mature Adult (6-7 years)": "Heated floors in winter. Elevated feeders. Weekly nose balm application. Joint supplements early. Exercise: 15 min intervals.",
+      "Senior (7+ years)": "Daily eye cleaning. Humidifier for breathing. Stairs avoidance. Memory foam everywhere. Hand-feeding if jaw weakness."
+    },
+    "Pomeranian": {
+      "Puppy (0-12 months)": "Line brushing daily. Bath every 3 weeks with conditioner. Start dental routine early. Tiny nail clippers weekly. Vaccination: Small breed protocol (half doses). Socialization to prevent barking.",
+      "Young Adult (1-3 years)": "Professional grooming monthly. Teeth scaling annually. Paw fur trimming. Exercise: 30 mins + mental games. Monitor for tracheal collapse.",
+      "Mid Adult (4-5 years)": "Conditioner sprays between baths. Dental treats daily. Nail caps if needed. Watch for luxating patella. Adjust collar to prevent injury.",
+      "Mature Adult (6-7 years)": "Frequent but short grooming sessions. Heated beds. Ramps for furniture. Teeth extractions common. Monitor heart murmur.",
+      "Senior (7+ years)": "Lion cuts for easier care. Soft toothbrushes. Carry outdoors in winter. Puzzle feeders for mental stimulation. Nighttime potty breaks."
+    },
+    "Beagle": {
+      "Puppy (0-12 months)": "Rubber curry brush weekly. Bath every 6 weeks. Ear cleaning 2x/week. Nail trims bi-weekly. Vaccination: Include bordetella. Leash training critical.",
+      "Young Adult (1-3 years)": "De-shedding tool during seasons. Teeth brushing 4x/week. Exercise: 60+ mins sniff walks. Annual thyroid checks. Prevent obesity.",
+      "Mid Adult (4-5 years)": "Medicated baths for skin. Dental chews daily. Paw inspections after walks. Monitor for epilepsy. Scent work recommended.",
+      "Mature Adult (6-7 years)": "More frequent ear cleaning. Joint supplements. Orthopedic beds. Adjust food puzzles for slower eating. Shorter but frequent walks.",
+      "Senior (7+ years)": "Gentle brushing only. Non-slip rugs. Warm jackets in winter. Bloodwork every 6 months. Monitor for dementia signs."
+    },
+    "Shih Tzu": {
+      "Puppy (0-12 months)": "Daily combing to prevent mats. Bath every 2 weeks. Eye cleaning daily. Start top knot training. Vaccination: Small breed schedule. Socialize for grooming tolerance.",
+      "Young Adult (1-3 years)": "Professional grooming every 3 weeks. Daily eye wiping. Teeth brushing 5x/week. Exercise: 30 mins + indoor play. Monitor for eye ulcers.",
+      "Mid Adult (4-5 years)": "Therapeutic conditioning treatments. Dental cleanings annually. Keep hair short for hygiene. Check skin folds weekly. Adjust exercise for breathing.",
+      "Mature Adult (6-7 years)": "Electric clippers recommended. Heated floor mats. Ramp training. Eye drops as needed. Monitor liver function.",
+      "Senior (7+ years)": "Puppy cuts for easier care. Soft toothbrushes. Carry up/down stairs. Memory foam bedding. Hand-stripping if coat changes."
+    },
+    "Siberian Husky": {
+      "Puppy (0-12 months)": "Undercoat rake weekly. Bath only 2-3x/year. Start nail grinding early. Vaccination: Distemper/parvo focus. Cold weather acclimation important.",
+      "Young Adult (1-3 years)": "Blow-out grooming seasonally. Teeth brushing 3x/week. Exercise: 120+ mins daily. Winter paw protection. Monitor for zinc deficiency.",
+      "Mid Adult (4-5 years)": "Professional de-shedding. Dental water additives. Musher's wax for paws. Cool mats in summer. Monitor for hypothyroidism.",
+      "Mature Adult (6-7 years)": "More frequent brushing. Joint supplements. Adjust exercise to cooler hours. Annual eye exams. Winter coats recommended.",
+      "Senior (7+ years)": "Gentle detangling sprays. Indoor potty options. Heated water bowls. Shorter but challenging walks. Monitor for neuropathy."
+    },
+    "Dachshund": {
+      "Puppy (0-12 months)": "Soft brush weekly. Bath monthly. Start back handling early. Nail trims every 10 days. Vaccination: Focus on spinal health. Ramps training critical.",
+      "Young Adult (1-3 years)": "Rubber grooming mitt. Teeth brushing daily. Exercise: Controlled 45 mins. Weight management essential. Annual spine x-rays.",
+      "Mid Adult (4-5 years)": "Therapeutic massage. Dental cleanings annually. Harness use mandatory. Monitor for IVDD signs. Swimming ideal exercise.",
+      "Mature Adult (6-7 years)": "Orthopedic everything. More frequent grooming. Paw protection outdoors. Adjust food bowl height. Laser therapy consideration.",
+      "Senior (7+ years)": "Wheelchair training. Diapers if incontinent. Hand-feeding if needed. Memory foam ramps. Monitor for diabetes signs."
+    },
+    "Rottweiler": {
+      "Puppy (0-12 months)": "Rubber curry brush weekly. Bath every 8 weeks. Ear cleaning weekly. Nail trims bi-weekly. Vaccination: Large breed protocol. Early socialization vital.",
+      "Young Adult (1-3 years)": "Professional grooming quarterly. Teeth scaling annually. Exercise: 90+ mins structured. Hip supplements early. Training for gentle mouth.",
+      "Mid Adult (4-5 years)": "Medicated wipes for wrinkles. Dental water additives. Paw inspections post-work. Monitor for osteosarcoma. Cooling vests in heat.",
+      "Mature Adult (6-7 years)": "Joint supplements mandatory. Orthopedic bedding. More frequent vet visits. Adjust exercise to 60 mins. Monitor heart health.",
+      "Senior (7+ years)": "Gentle brushing only. Ramps for vehicles. Soft food options. Shorter but meaningful walks. Night lights for vision."
+    }
+  }

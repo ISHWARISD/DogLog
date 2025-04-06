@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart' show rootBundle;
-
-import '../database_helper.dart'; // Importing SQLite database helper
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
   final String baseUrl;
+  static const String _userDataKey = 'user_data';
+  static const String _currentUserKey = 'current_user';
 
   ApiService({this.baseUrl = 'https://api.thedogapi.com/v1'}); // Example base URL
 
-  // Fetching breeds (existing function)
+  // Fetching breeds
   Future<List<String>> getBreeds() async {
     try {
       print('Fetching breeds...');
@@ -24,7 +24,7 @@ class ApiService {
     }
   }
 
-  // Fetching diet info (existing function)
+  // Fetching diet info
   Future<String> getDietInfo(String breed, String ageGroup) async {
     try {
       print('Fetching diet info for breed: $breed, age group: $ageGroup...');
@@ -38,109 +38,218 @@ class ApiService {
     }
   }
 
-  // ------------------- New Authentication Functions -------------------
-
-  // User Registration
-  Future<bool> registerUser(String username, String password) async {
+  // Fetching fun & socialization info
+  Future<Map<String, dynamic>> getFunInfo(String breed, String ageGroup) async {
     try {
-      final dbHelper = DatabaseHelper.instance;
-      
-      // Ensure the users table exists
-      await dbHelper.ensureUsersTableExists();
-      
-      final db = await dbHelper.database;
-      
-      // Check if user already exists
-      final existingUser = await db.query(
-        'users',
-        where: 'username = ?',
-        whereArgs: [username],
-      );
+      print('Fetching fun info for breed: $breed, age group: $ageGroup...');
+      final String response = await rootBundle.loadString('data/fun.json');
+      final data = json.decode(response);
+      print('Fun info fetched successfully.');
+      return data[breed][ageGroup];
+    } catch (e) {
+      print('Error reading fun information: $e');
+      throw Exception('Error reading fun information: $e');
+    }
+  }
 
-      if (existingUser.isNotEmpty) {
-        print('User already exists!');
+  // Fetching health & hygiene info
+  Future<Map<String, dynamic>> getHygieneInfo(String breed, String ageGroup) async {
+    try {
+      print('Fetching health & hygiene info for breed: $breed, age group: $ageGroup...');
+      final String response = await rootBundle.loadString('data/health_hygiene.json');
+      final data = json.decode(response);
+      print('Health & hygiene info fetched successfully.');
+      return data[breed][ageGroup];
+    } catch (e) {
+      print('Error reading health & hygiene information: $e');
+      throw Exception('Error reading health & hygiene information: $e');
+    }
+  }
+
+  // Fetching medical care info
+  Future<Map<String, dynamic>> getMedicalInfo(String breed, String ageGroup) async {
+    try {
+      print('Fetching medical care info for breed: $breed, age group: $ageGroup...');
+      final String response = await rootBundle.loadString('data/medical_care.json');
+      final data = json.decode(response);
+      print('Medical care info fetched successfully.');
+      return data[breed][ageGroup];
+    } catch (e) {
+      print('Error reading medical care information: $e');
+      throw Exception('Error reading medical care information: $e');
+    }
+  }
+
+  // Register user
+  Future<bool> registerUser(String email, String password) async {
+    try {
+      print('Registering user with email: $email...');
+      
+      if (email.isEmpty || password.isEmpty) {
+        print('Registration failed: Invalid input.');
         return false;
       }
-
-      // Hash the password
-      final hashedPassword = sha256.convert(utf8.encode(password)).toString();
-
-      // Insert new user into database
-      await db.insert('users', {
-        'username': username,
-        'password': hashedPassword,
-        'onboardingCompleted': 0, // New users have not completed onboarding
-      });
-
-      print('User registered successfully!');
+      
+      // Check if user already exists
+      final prefs = await SharedPreferences.getInstance();
+      final usersJson = prefs.getString(_userDataKey);
+      Map<String, dynamic> users = {};
+      
+      if (usersJson != null) {
+        users = json.decode(usersJson);
+        if (users.containsKey(email)) {
+          print('Registration failed: Email already in use.');
+          return false;
+        }
+      }
+      
+      // Add new user to local storage
+      users[email] = {
+        'password': password,
+        'onboardingCompleted': false,
+        'createdAt': DateTime.now().toIso8601String(),
+      };
+      
+      // Save updated users
+      await prefs.setString(_userDataKey, json.encode(users));
+      print('User registered successfully.');
       return true;
     } catch (e) {
-      print('Error registering user: $e');
+      print('Error during registration: $e');
       return false;
     }
   }
 
-  // User Login
-  Future<Map<String, dynamic>> loginUser(String username, String password) async {
+  // Login user
+  Future<Map<String, dynamic>> loginUser(String email, String password) async {
     try {
-      final dbHelper = DatabaseHelper.instance;
+      print('Logging in user with email: $email...');
       
-      // Ensure the users table exists
-      await dbHelper.ensureUsersTableExists();
+      final prefs = await SharedPreferences.getInstance();
+      final usersJson = prefs.getString(_userDataKey);
       
-      final db = await dbHelper.database;
-
-      // Hash the password
-      final hashedPassword = sha256.convert(utf8.encode(password)).toString();
-
-      // Check credentials
-      final user = await db.query(
-        'users',
-        where: 'username = ? AND password = ?',
-        whereArgs: [username, hashedPassword],
-      );
-
-      if (user.isNotEmpty) {
-        print('Login successful!');
-        bool onboardingCompleted = user.first['onboardingCompleted'] == 1;
-
+      if (usersJson == null) {
+        print('No registered users found.');
+        return {'success': false, 'message': 'Invalid email or password'};
+      }
+      
+      final users = json.decode(usersJson);
+      
+      // Check if user exists and password matches
+      if (users.containsKey(email) && users[email]['password'] == password) {
+        // Store current user session
+        final currentUser = {
+          'email': email,
+          'onboardingCompleted': users[email]['onboardingCompleted'],
+          'loggedInAt': DateTime.now().toIso8601String()
+        };
+        
+        await prefs.setString(_currentUserKey, json.encode(currentUser));
+        
+        print('Login successful.');
         return {
-          'success': true,
-          'onboardingCompleted': onboardingCompleted,
-          'email': user.first['username'], // Ensure email is returned
+          'success': true, 
+          'onboardingCompleted': users[email]['onboardingCompleted'],
+          'message': 'Login successful'
         };
       } else {
-        print('Invalid username or password');
-        return {'success': false};
+        print('Invalid credentials.');
+        return {'success': false, 'message': 'Invalid email or password'};
       }
     } catch (e) {
-      print('Error logging in user: $e');
-      return {'success': false};
+      print('Error during login: $e');
+      return {'success': false, 'message': 'An error occurred during login'};
     }
   }
-
-  // Mark user onboarding as completed
-  Future<bool> completeUserOnboarding(String username) async {
+  
+  // Update onboarding status
+  Future<bool> updateOnboardingStatus(String email, bool completed) async {
     try {
-      final dbHelper = DatabaseHelper.instance;
-      final db = await dbHelper.database;
-
-      int updated = await db.update(
-        'users',
-        {'onboardingCompleted': 1},
-        where: 'username = ?',
-        whereArgs: [username],
-      );
-
-      if (updated > 0) {
-        print('Onboarding marked as completed for user: $username');
-        return true;
-      } else {
-        print('Failed to mark onboarding as completed for user: $username');
+      final prefs = await SharedPreferences.getInstance();
+      final usersJson = prefs.getString(_userDataKey);
+      
+      if (usersJson == null) {
         return false;
       }
+      
+      Map<String, dynamic> users = json.decode(usersJson);
+      
+      if (!users.containsKey(email)) {
+        return false;
+      }
+      
+      // Update onboarding status
+      users[email]['onboardingCompleted'] = completed;
+      await prefs.setString(_userDataKey, json.encode(users));
+      
+      // Also update in current user if it's the logged-in user
+      final currentUserJson = prefs.getString(_currentUserKey);
+      if (currentUserJson != null) {
+        final currentUser = json.decode(currentUserJson);
+        if (currentUser['email'] == email) {
+          currentUser['onboardingCompleted'] = completed;
+          await prefs.setString(_currentUserKey, json.encode(currentUser));
+        }
+      }
+      
+      return true;
     } catch (e) {
-      print('Error completing onboarding: $e');
+      print('Error updating onboarding status: $e');
+      return false;
+    }
+  }
+  
+  // Get current user
+  Future<Map<String, dynamic>?> getCurrentUser() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final currentUserJson = prefs.getString(_currentUserKey);
+      
+      if (currentUserJson == null) {
+        return null;
+      }
+      
+      return json.decode(currentUserJson);
+    } catch (e) {
+      print('Error getting current user: $e');
+      return null;
+    }
+  }
+  
+  // Logout
+  Future<bool> logout() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.remove(_currentUserKey);
+      return true;
+    } catch (e) {
+      print('Error during logout: $e');
+      return false;
+    }
+  }
+  
+  // Reset password
+  Future<bool> resetPassword(String email) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final usersJson = prefs.getString(_userDataKey);
+      
+      if (usersJson == null) {
+        return false;
+      }
+      
+      Map<String, dynamic> users = json.decode(usersJson);
+      
+      if (!users.containsKey(email)) {
+        return false;
+      }
+      
+      // In a real app, this would trigger a password reset email
+      // For this demo, we'll just print a message
+      print('Password reset initiated for $email');
+      return true;
+    } catch (e) {
+      print('Error during password reset: $e');
       return false;
     }
   }

@@ -86,7 +86,9 @@ flutter:
     - assets/signup.jpg
     - data/vetcare.json
     - data/diet_nutrition.json
-
+    - data/health_hygiene.json
+    - data/medical_care.json
+    - data/fun.json
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images
 

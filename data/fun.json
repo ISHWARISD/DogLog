@@ -1,0 +1,150 @@
+{
+    "Labrador Retriever": {
+      "Puppy (0-12 months)": {
+        "Socialization": "Puppy kindergarten classes 2x/week, daily 5-minute positive exposure to new surfaces/textures, weekly 'puppy parties' with vaccinated dogs",
+        "Games": "Flirt pole sessions (5 mins), frozen Kong wobblers, scent games with hidden treats in cardboard boxes",
+        "Training": "3x5-minute daily sessions focusing on 'leave it', recall, and gentle mouthing control. Water introduction with shallow wading",
+        "Adventure": "Short hikes (5 mins per week of age) with rest breaks, beach trips for shallow water play",
+        "Special Notes": "Avoid forced socialization when tired. End all activities before puppy shows exhaustion"
+      },
+      "Young Adult (1-3 years)": {
+        "Socialization": "Weekly dog park visits (off-peak hours), monthly 'doggy daycare' days, coffee shop patio training",
+        "Games": "Dock diving foundations, bumper retrieval with directional training, food puzzle tournaments",
+        "Training": "Advanced obedience classes, introduction to field trials or nose work, 'go find' games with hidden objects",
+        "Adventure": "3-5 mile hikes with pack carrying, kayak/canoe outings, snowshoeing in winter",
+        "Special Notes": "Channel retrieving instinct into structured games to prevent destructive chewing"
+      },
+      "Mid Adult (4-5 years)": {
+        "Socialization": "Therapy dog training classes, brewery visits (where allowed), group training workshops",
+        "Games": "Advanced scent work (tracking human scent), frisbee golf hybrid games, 'clean up' games putting toys in bins",
+        "Training": "Water rescue drills, off-leash reliability training in varied environments, trick training for mental stimulation",
+        "Adventure": "Camping trips with swimming opportunities, stand-up paddleboarding, cross-country skiing",
+        "Special Notes": "Monitor joints during high-impact activities - consider doggie life jackets for water work"
+      },
+      "Mature Adult (6-7 years)": {
+        "Socialization": "Senior dog meetups, quiet cafe visits, assisted living facility visits (if temperament appropriate)",
+        "Games": "Low-impact nose work (hidden treats in house), slow feeder puzzles, gentle fetch in water",
+        "Training": "Novel trick training (3-5 minutes daily), 'name all toys' reinforcement, light therapy dog work",
+        "Adventure": "Short woodland walks with sniffing breaks, golf cart rides, shallow water wading",
+        "Special Notes": "Replace running fetch with swimming fetch or scent-based retrieval games"
+      },
+      "Senior (7+ years)": {
+        "Socialization": "Quartet playdates with known calm dogs, porch sitting with neighborhood watch, car rides to pet stores",
+        "Games": "Snuffle mats, 'find the treat' under cups, gentle tug with soft toys",
+        "Training": "Cognitive games (shell game with treats), name recognition reinforcement, touch targeting to maintain mobility",
+        "Adventure": "Stroller walks when tired, golf course walks at dusk, backyard 'safaris' with hidden scents",
+        "Special Notes": "Focus on mental stimulation over physical. 5 minutes of activity followed by equal rest"
+      }
+    },
+    "German Shepherd": {
+      "Puppy (0-12 months)": {
+        "Socialization": "Controlled exposure to uniformed personnel (mail carriers, etc.), novel surface training daily, puppy socialization with balanced adult dogs",
+        "Games": "Controlled tug with rules, food-dispensing balls, obstacle courses with low jumps",
+        "Training": "Daily 5-minute bitework foundations (with proper equipment), place command training, obstacle confidence building",
+        "Adventure": "Urban exploration training (short sessions), hiking on varied terrain, public transit acclimation",
+        "Special Notes": "Critical socialization window closes at 16 weeks - prioritize positive experiences"
+      },
+      "Young Adult (1-3 years)": {
+        "Socialization": "Advanced group classes (IPO clubs), security training simulations, crowded environment training",
+        "Games": "Protection sports foundations, advanced agility courses, scent discrimination games",
+        "Training": "Tracking work, advanced obedience with distractions, bitework development (with professional)",
+        "Adventure": "Backpacking trips with weight carrying, bikejoring foundations, search-and-rescue basics",
+        "Special Notes": "Channel protective instincts into structured activities to prevent over-guarding"
+      },
+      "Mid Adult (4-5 years)": {
+        "Socialization": "Schutzhund club participation, public demonstrations, K9 good citizen testing",
+        "Games": "Competitive obedience scenarios, advanced tracking, directional bitework",
+        "Training": "Personal protection training (if temperament appropriate), disaster response drills, multi-phase tracking",
+        "Adventure": "Multi-day hiking expeditions, winter search scenarios, water rescue training",
+        "Special Notes": "Monitor for degenerative joint issues during high-impact work"
+      },
+      "Mature Adult (6-7 years)": {
+        "Socialization": "Mentoring younger GSDs, light public access work, supervised teen handler training",
+        "Games": "Low-impact nose work, puzzle box challenges, water-based retrieval",
+        "Training": "Therapy dog work (if temperament suitable), trick training demonstrations, precision obedience",
+        "Adventure": "Leisurely patrol walks, golf course outings, car rides to new environments",
+        "Special Notes": "Transition from protection sports to mental stimulation games"
+      },
+      "Senior (7+ years)": {
+        "Socialization": "Quiet time with select canine friends, household guest greetings, porch monitoring activities",
+        "Games": "Cognitive puzzles, scent memory games, gentle massage sessions",
+        "Training": "Name recognition reinforcement, simple command chains, tactile stimulation exercises",
+        "Adventure": "Short neighborhood patrols, car rides to favorite spots, backyard exploration",
+        "Special Notes": "Maintain light tracking/nose work to preserve mental acuity"
+      }
+    },
+    "French Bulldog": {
+      "Puppy (0-12 months)": {
+        "Socialization": "Very short (3-5 minute) positive play sessions with calm puppies, handling exercises daily, surface texture exploration",
+        "Games": "Food puzzle rollers, soft toy tossing (very short distances), treat-hidden-in-blanket games",
+        "Training": "Name recognition, collar acclimation, 'watch me' exercises in low-distraction environments",
+        "Adventure": "Carrier acclimation for future travel, backyard exploration on harness, short stroller rides",
+        "Special Notes": "Never force interaction when showing breathing difficulty. Keep all play sessions under 10 minutes"
+      },
+      "Young Adult (1-3 years)": {
+        "Socialization": "Frenchie meetup groups (with cooling breaks), cafe patio training, supervised play with gentle small breeds",
+        "Games": "Indoor agility (low jumps), treat puzzles, 'find the toy' games in limited spaces",
+        "Training": "Trick training (spin, bow), leash manners practice, mat settling exercises",
+        "Adventure": "Air-conditioned mall walks, short neighborhood walks in cool hours, pet-friendly store visits",
+        "Special Notes": "Always carry cooling vest and water. Avoid all activities in temperatures above 75°F"
+      },
+      "Mid Adult (4-5 years)": {
+        "Socialization": "Therapy dog candidate training (if temperament appropriate), wine bar visits during quiet hours",
+        "Games": "Advanced food puzzles, hide-and-seek with family members, bubble chasing (indoor)",
+        "Training": "Novel trick training, 'go to place' with duration, toy discrimination by name",
+        "Adventure": "Short beach trips at dawn/dusk, cabin vacations with AC, photography modeling sessions",
+        "Special Notes": "Monitor spinal health during all activities - no jumping on/off furniture"
+      },
+      "Mature Adult (6-7 years)": {
+        "Socialization": "Grandparent visitation programs, quiet time with select canine friends",
+        "Games": "Snuffle mats, slow feeder puzzles, gentle tug with soft toys",
+        "Training": "Cognitive games (shell game), name recognition reinforcement, touch targeting",
+        "Adventure": "Stroller excursions, car rides to favorite spots, backyard 'safaris'",
+        "Special Notes": "Focus on mental stimulation over physical. 5 minutes of activity followed by equal rest"
+      },
+      "Senior (7+ years)": {
+        "Socialization": "Quiet household activities, gentle greeting of known visitors, porch sitting",
+        "Games": "Treat-dispensing soft toys, 'find the treat' under cups, gentle massage sessions",
+        "Training": "Simple command reinforcement, name recognition games, tactile stimulation",
+        "Adventure": "Short indoor 'exploration' sessions, car rides with AC, window watching with treats",
+        "Special Notes": "Maintain light mental stimulation while prioritizing comfort and cooling"
+      }
+    },
+    "Dachshund": {
+      "Puppy (0-12 months)": {
+        "Socialization": "Puppy classes with size-matched playgroups, daily handling of paws/back, introduction to varied floor surfaces",
+        "Games": "Tunnels (with straight configuration), food puzzles, very low obstacle courses",
+        "Training": "Ramp training for furniture access, 'gentle' command for taking treats, early recall foundations",
+        "Adventure": "Short walks on even surfaces, blanket fort building, car ride acclimation",
+        "Special Notes": "Absolutely no jumping or stairs. Supervise all play with larger dogs"
+      },
+      "Young Adult (1-3 years)": {
+        "Socialization": "Dachshund meetup groups, patio dining training, supervised play with other small hunting breeds",
+        "Games": "Earth dog tunnel trials, scent tracking games, 'find the treat' in dig boxes",
+        "Training": "Advanced recall with distractions, 'leave it' reinforcement, off-switch training",
+        "Adventure": "Hiking on even trails with harness, beach trips with shade access, urban exploring",
+        "Special Notes": "Use harnesses exclusively. Monitor for back sensitivity during all activities"
+      },
+      "Mid Adult (4-5 years)": {
+        "Socialization": "Therapy dog candidate training (if appropriate), small breed playdates, cafe visits",
+        "Games": "Modified barn hunt, nose work competitions, puzzle toy tournaments",
+        "Training": "Trick training for mental stimulation, 'go to place' with duration, toy names",
+        "Adventure": "Camping trips with ramp access to tent, kayak outings with life vest, winter indoor 'hunts'",
+        "Special Notes": "Begin transitioning from high-impact activities to more scent-based games"
+      },
+      "Mature Adult (6-7 years)": {
+        "Socialization": "Senior small dog meetups, quiet visitor greetings, porch sitting with family",
+        "Games": "Low-impact nose work, snuffle mats, treat-dispensing balls",
+        "Training": "Cognitive games, name recognition reinforcement, gentle mobility exercises",
+        "Adventure": "Stroller walks when tired, car rides to favorite spots, backyard exploration",
+        "Special Notes": "Focus on mental stimulation over physical. Monitor for IVDD signs"
+      },
+      "Senior (7+ years)": {
+        "Socialization": "One-on-one time with favorite humans, gentle greeting of known dogs, household participation",
+        "Games": "'Find the treat' under cups, gentle massage sessions, soft toy cuddling",
+        "Training": "Simple command reinforcement, tactile stimulation, name recognition games",
+        "Adventure": "Short indoor exploration, car rides with orthopedic bedding, window watching",
+        "Special Notes": "Maintain light mental stimulation while prioritizing back health and comfort"
+      }
+    }
+  }

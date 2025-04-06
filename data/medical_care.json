@@ -1,0 +1,150 @@
+{
+    "Labrador Retriever": {
+      "Puppy (0-12 months)": {
+        "Vaccinations": "DHPP every 3-4 weeks until 16 weeks, rabies at 12-16 weeks, leptospirosis if endemic area",
+        "Common Issues": "Panosteitis (growing pains), congenital eye disorders, ear infections",
+        "Preventive Care": "Monthly heartworm prevention, fecal tests quarterly, begin hip evaluation at 6 months",
+        "Emergency Signs": "Limping that shifts legs, sudden eye cloudiness, excessive head shaking",
+        "Special Notes": "Avoid over-exercise during growth periods to prevent joint damage"
+      },
+      "Young Adult (1-3 years)": {
+        "Vaccinations": "DHPP booster at 1 year then every 3 years, lepto annually, Lyme where prevalent",
+        "Common Issues": "ACL tears, exercise-induced collapse, gastric dilatation-volvulus (bloat)",
+        "Preventive Care": "Annual hip/elbow evaluations, thyroid testing, quarterly ear cleaning",
+        "Emergency Signs": "Unproductive retching, sudden hind leg lameness, collapse after exercise",
+        "Special Notes": "Consider gastropexy during spay/neuter to prevent bloat"
+      },
+      "Mid Adult (4-5 years)": {
+        "Vaccinations": "Titer testing available, bordetella annually if boarding",
+        "Common Issues": "Obesity-related diabetes, lipomas, laryngeal paralysis",
+        "Preventive Care": "Annual blood chemistry panel, blood pressure monitoring, joint supplements",
+        "Emergency Signs": "Sudden voice change, difficulty rising, excessive water consumption",
+        "Special Notes": "Begin annual chest x-rays for early cancer detection"
+      },
+      "Mature Adult (6-7 years)": {
+        "Vaccinations": "Core vaccines only, adjust based on titer results",
+        "Common Issues": "Osteoarthritis, hypothyroidism, hemangiosarcoma",
+        "Preventive Care": "Bi-annual senior wellness panels, abdominal ultrasounds, pain management",
+        "Emergency Signs": "Sudden abdominal distension, unexplained bruising, seizures",
+        "Special Notes": "Consider oncology screening package annually"
+      },
+      "Senior (7+ years)": {
+        "Vaccinations": "Minimum necessary, vet-approved schedule",
+        "Common Issues": "Cognitive dysfunction, kidney disease, degenerative joint disease",
+        "Preventive Care": "Quarterly bloodwork, blood pressure checks, neurological exams",
+        "Emergency Signs": "Disorientation, inability to stand, bloody urine",
+        "Special Notes": "Quality of life assessments every 3 months"
+      }
+    },
+    "German Shepherd": {
+      "Puppy (0-12 months)": {
+        "Vaccinations": "Extended DHPP schedule (to 18 weeks), rabies at 16 weeks",
+        "Common Issues": "Panosteitis, exocrine pancreatic insufficiency, demodectic mange",
+        "Preventive Care": "Begin digestive enzymes if EPI suspected, skin scrapings for mites",
+        "Emergency Signs": "Puppy sitting like a frog (hip dysplasia), chronic diarrhea",
+        "Special Notes": "Strict 5-minute exercise per month of age rule"
+      },
+      "Young Adult (1-3 years)": {
+        "Vaccinations": "Lepto every 6 months in endemic areas",
+        "Common Issues": "Degenerative myelopathy onset, elbow dysplasia, anal furunculosis",
+        "Preventive Care": "Annual myelopathy DNA test, anal gland expression monthly",
+        "Emergency Signs": "Hind leg weakness, scooting with bloody discharge",
+        "Special Notes": "Begin lifetime joint supplements at 2 years"
+      },
+      "Mid Adult (4-5 years)": {
+        "Vaccinations": "Consider rattlesnake vaccine if in southwest US",
+        "Common Issues": "Spondylosis deformans, perianal fistulas, pannus",
+        "Preventive Care": "Annual spinal x-rays, eye exams for pannus, immunomodulators",
+        "Emergency Signs": "Sudden loss of tail function, eye cloudiness",
+        "Special Notes": "Acupuncture recommended for spinal issues"
+      },
+      "Mature Adult (6-7 years)": {
+        "Vaccinations": "Titers for distemper/parvo, minimal necessary",
+        "Common Issues": "Hemangiosarcoma, degenerative disc disease, megaesophagus",
+        "Preventive Care": "Cardiac ultrasounds, barium studies if regurgitating",
+        "Emergency Signs": "Collapse without warning, difficulty swallowing",
+        "Special Notes": "Elevated feeding stations mandatory"
+      },
+      "Senior (7+ years)": {
+        "Vaccinations": "Rabies only as legally required",
+        "Common Issues": "Myelopathy progression, dementia, laryngeal paralysis",
+        "Preventive Care": "Wheelchair adaptation training, oxygen therapy access",
+        "Emergency Signs": "Blue gums after exercise, complete hind end collapse",
+        "Special Notes": "Consider mobility cart before complete paralysis"
+      }
+    },
+    "French Bulldog": {
+      "Puppy (0-12 months)": {
+        "Vaccinations": "Split DHPP doses (half at 8 & 12 weeks), delayed rabies",
+        "Common Issues": "Cleft palate, hemivertebrae, allergic dermatitis",
+        "Preventive Care": "CT scan for spinal defects, allergy testing at 6 months",
+        "Emergency Signs": "Blue tongue after play, inability to nurse properly",
+        "Special Notes": "Never use collars - harnesses only"
+      },
+      "Young Adult (1-3 years)": {
+        "Vaccinations": "Non-adjuvanted vaccines only",
+        "Common Issues": "Brachycephalic syndrome, IVDD, corneal ulcers",
+        "Preventive Care": "Airway evaluation grading, spinal x-rays annually",
+        "Emergency Signs": "Noisy breathing at rest, dragging back legs",
+        "Special Notes": "Consider nares resection/staphylectomy if severe"
+      },
+      "Mid Adult (4-5 years)": {
+        "Vaccinations": "Minimum necessary, antibody titer testing",
+        "Common Issues": "Intervertebral disc disease, patellar luxation",
+        "Preventive Care": "Neurological exams quarterly, knee evaluations",
+        "Emergency Signs": "Sudden paralysis, inability to extend leg",
+        "Special Notes": "Cold laser therapy beneficial for back pain"
+      },
+      "Mature Adult (6-7 years)": {
+        "Vaccinations": "Rabies only unless high-risk environment",
+        "Common Issues": "Heart failure, tracheal collapse, hemivertebrae pain",
+        "Preventive Care": "Echocardiograms annually, chest x-rays bi-annually",
+        "Emergency Signs": "Coughing fits that end in fainting, abdominal swelling",
+        "Special Notes": "Oxygen concentrator for home use recommended"
+      },
+      "Senior (7+ years)": {
+        "Vaccinations": "Exemptions sought where possible",
+        "Common Issues": "Dementia, complete tracheal collapse, spinal fusion",
+        "Preventive Care": "24/7 climate control, humidifiers, pain management",
+        "Emergency Signs": "Non-stop coughing, complete limb paralysis",
+        "Special Notes": "Quality of life assessments every 2 months"
+      }
+    },
+    "Dachshund": {
+      "Puppy (0-12 months)": {
+        "Vaccinations": "Standard schedule with emphasis on leptospirosis",
+        "Common Issues": "Osteogenesis imperfecta, patent ductus arteriosus",
+        "Preventive Care": "Cardiac ultrasound at 6 months, ramp training immediately",
+        "Emergency Signs": "Fractures from minor trauma, exercise intolerance",
+        "Special Notes": "Absolutely no jumping or stairs"
+      },
+      "Young Adult (1-3 years)": {
+        "Vaccinations": "Add Lyme vaccine if in endemic areas",
+        "Common Issues": "Early IVDD signs, acanthosis nigricans, obesity",
+        "Preventive Care": "Annual spinal MRI baseline, weight management plans",
+        "Emergency Signs": "Neck pain, knuckling paws, skin darkening",
+        "Special Notes": "Custom orthopedic beds essential"
+      },
+      "Mid Adult (4-5 years)": {
+        "Vaccinations": "Titers for core vaccines",
+        "Common Issues": "Full IVDD episodes, Cushing's disease, diabetes",
+        "Preventive Care": "ACTH stimulation tests, glucose curves if symptomatic",
+        "Emergency Signs": "Sudden paralysis, excessive drinking/urination",
+        "Special Notes": "Keep prednisone on hand for acute disc episodes"
+      },
+      "Mature Adult (6-7 years)": {
+        "Vaccinations": "Minimum necessary vaccines",
+        "Common Issues": "Chronic back pain, urinary incontinence, pancreatitis",
+        "Preventive Care": "Bladder ultrasounds, lipase monitoring, laser therapy",
+        "Emergency Signs": "Hunched back position, vomiting with diarrhea",
+        "Special Notes": "Consider wheelchair adaptation training"
+      },
+      "Senior (7+ years)": {
+        "Vaccinations": "Exemptions where legally allowed",
+        "Common Issues": "Complete hind end paralysis, dementia, heart failure",
+        "Preventive Care": "Express bladder manually, dementia supplements",
+        "Emergency Signs": "Inability to urinate, circling/getting stuck",
+        "Special Notes": "Diapers and express training for caregivers"
+      }
+    }
+  }
