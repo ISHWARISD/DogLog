@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../AboutMe.dart';
 import '../VetCare.dart';
-import 'Diet_Nutrition.dart';  // Import the Diet_Nutrition page
+import 'Diet_Nutrition.dart'; // Import the Diet_Nutrition page
 import 'Fun.dart';
 import 'Health_Hygiene.dart';
 import 'MedicalCare.dart';
@@ -14,18 +14,18 @@ class GuidancePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFFFB74D),
+      backgroundColor: const Color(0xFFFFB74D),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.all(16.0),
+            padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [
                 // Header with Paw Icon
                 Row(
                   children: [
                     Container(
-                      padding: EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
                         color: Colors.white,
                         shape: BoxShape.circle,
@@ -34,20 +34,20 @@ class GuidancePage extends StatelessWidget {
                             color: Colors.black.withOpacity(0.1),
                             spreadRadius: 1,
                             blurRadius: 3,
-                            offset: Offset(0, 2),
+                            offset: const Offset(0, 2),
                           ),
                         ],
                       ),
-                      child: Icon(
+                      child: const Icon(
                         Icons.pets,
                         size: 24,
                         color: Colors.black87,
                       ),
                     ),
-                    SizedBox(width: 12),
+                    const SizedBox(width: 12),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           'DogLog',
                           style: TextStyle(
@@ -67,10 +67,10 @@ class GuidancePage extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
                 // Titles
-                Text(
+                const Text(
                   'Where Do You Need Guidance?',
                   style: TextStyle(
                     fontSize: 24,
@@ -78,8 +78,8 @@ class GuidancePage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 8),
-                Text(
+                const SizedBox(height: 8),
+                const Text(
                   'Pick a Topic to Explore!',
                   style: TextStyle(
                     fontSize: 28,
@@ -87,7 +87,7 @@ class GuidancePage extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
 
                 // Dog Image
                 Image.asset(
@@ -95,24 +95,23 @@ class GuidancePage extends StatelessWidget {
                   height: 200,
                   fit: BoxFit.contain,
                 ),
-                SizedBox(height: 24),
+                const SizedBox(height: 24),
 
                 // Grid of Topics
                 GridView.builder(
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
                     crossAxisSpacing: 16,
                     mainAxisSpacing: 16,
-                    childAspectRatio: 0.7, // Adjusted for better text visibility
+                    childAspectRatio: 0.7, // Keeping the same aspect ratio
                   ),
                   itemCount: _topics.length,
                   itemBuilder: (context, index) {
                     return _buildTopicCard(
                       context, // Pass context for navigation
                       title: _topics[index]['title']!,
-                      description: _topics[index]['description']!,
                       imagePath: _topics[index]['imagePath']!,
                       onTap: () {
                         // Add navigation based on the topic
@@ -150,12 +149,12 @@ class GuidancePage extends StatelessWidget {
                   },
                 ),
 
-                SizedBox(height: 30), // More spacing to avoid bottom overflow
+                const SizedBox(height: 30), // More spacing to avoid bottom overflow
 
                 // Bottom Navigation
                 Container(
-                  padding: EdgeInsets.all(16),
-                  color: Color(0xFFFFB74D),
+                  padding: const EdgeInsets.all(16),
+                  color: const Color(0xFFFFB74D),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
@@ -200,22 +199,18 @@ class GuidancePage extends StatelessWidget {
   final List<Map<String, String>> _topics = [
     {
       'title': 'Diet & Nutrition',
-      'description': 'Fuel your dog with the right balance of nutrients....',
       'imagePath': 'assets/dogfood.jpg',
     },
     {
       'title': 'Health & Hygiene',
-      'description': 'Keep your pup in top shape with proper grooming,...',
       'imagePath': 'assets/doghygiene.jpg',
     },
     {
       'title': 'Vaccination & Medical Care',
-      'description': 'Protect your pup with core and non-core vaccinations, ensuring they stay safe from serious diseases.',
       'imagePath': 'assets/dogvaccination.jpg',
     },
     {
       'title': 'Fun & Socialization',
-      'description': 'Get your pup out there! Explore dog parks, hikes, and fun activities together.',
       'imagePath': 'assets/dogfun.jpg',
     },
   ];
@@ -223,7 +218,6 @@ class GuidancePage extends StatelessWidget {
   Widget _buildTopicCard(
     BuildContext context, {
     required String title,
-    required String description,
     required String imagePath,
     required VoidCallback onTap,
   }) {
@@ -235,45 +229,42 @@ class GuidancePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // Image (with fixed height)
-            ClipRRect(
-              borderRadius: BorderRadius.circular(8),
-              child: Image.asset(
-                imagePath,
-                height: 100, // Reduced height to prioritize text
-                width: double.infinity,
-                fit: BoxFit.cover,
+            // Larger image taking most of the card space
+            Expanded(
+              flex: 7, // Allocate 70% of space to image
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+                child: Image.asset(
+                  imagePath,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            // Text Content
-            Padding(
-              padding: EdgeInsets.all(8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
+            // Title in a simple container at the bottom
+            Expanded(
+              flex: 3, // Allocate 30% of space to title
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFF3E0), // Light orange background
+                  borderRadius: BorderRadius.vertical(bottom: Radius.circular(16)),
+                ),
+                child: Center(
+                  child: Text(
                     title,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
                       color: Colors.brown,
                     ),
+                    textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 4),
-                  Text(
-                    description,
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: Colors.black54,
-                    ),
-                    maxLines: 3, // Limit to 3 lines
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
+                ),
               ),
             ),
           ],
