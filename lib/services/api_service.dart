@@ -7,8 +7,49 @@ class ApiService {
   final String baseUrl;
   static const String _userDataKey = 'user_data';
   static const String _currentUserKey = 'current_user';
+  static const String _userProfileKey = 'user_profile_';  // Will be used as prefix: user_profile_email@example.com
 
-  ApiService({this.baseUrl = 'https://api.thedogapi.com/v1'}); // Example base URL
+  ApiService({this.baseUrl = 'https://api.thedogapi.com/v1'});
+
+  // Save dog profile information
+  Future<bool> saveDogProfile(String email, Map<String, dynamic> dogInfo) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userProfileKey = _userProfileKey + email;
+      
+      // Save the dog profile
+      await prefs.setString(userProfileKey, json.encode(dogInfo));
+      print('Dog profile saved for user: $email');
+      
+      // Update onboarding status for this user
+      await updateOnboardingStatus(email, true);
+      
+      return true;
+    } catch (e) {
+      print('Error saving dog profile: $e');
+      return false;
+    }
+  }
+
+  // Get saved dog profile information
+  Future<Map<String, dynamic>?> getDogProfile(String email) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final userProfileKey = _userProfileKey + email;
+      final profileData = prefs.getString(userProfileKey);
+      
+      if (profileData == null) {
+        print('No profile found for user: $email');
+        return null;
+      }
+      
+      print('Profile retrieved for user: $email');
+      return json.decode(profileData);
+    } catch (e) {
+      print('Error retrieving dog profile: $e');
+      return null;
+    }
+  }
 
   // Fetching breeds
   Future<List<String>> getBreeds() async {
@@ -150,7 +191,8 @@ class ApiService {
         return {
           'success': true, 
           'onboardingCompleted': users[email]['onboardingCompleted'],
-          'message': 'Login successful'
+          'message': 'Login successful',
+          'email': email  // Add email to the return map for convenience
         };
       } else {
         print('Invalid credentials.');

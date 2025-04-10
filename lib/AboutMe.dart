@@ -7,7 +7,10 @@ import 'VetCare.dart'; // Import VetCare page
 import 'database_helper.dart'; // Import DatabaseHelper
 
 class AboutMePage extends StatefulWidget {
-  const AboutMePage({Key? key}) : super(key: key);
+  final Map<String, dynamic>? dogProfile;
+  final String? email;
+  
+  const AboutMePage({Key? key, this.dogProfile, this.email}) : super(key: key);
 
   @override
   _AboutMePageState createState() => _AboutMePageState();
@@ -167,7 +170,7 @@ class _AboutMePageState extends State<AboutMePage> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => VetCarePage()),
+                        MaterialPageRoute(builder: (context) => const VetCarePage()),
                       );
                     },
                     child: _buildNavItem(Icons.home, 'Vet Care'),

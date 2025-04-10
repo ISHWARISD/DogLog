@@ -51,14 +51,21 @@ class _LoginPageState extends State<LoginPage> {
       if (loginResult['success']) {
         // Check if onboarding is completed to determine navigation
         if (loginResult['onboardingCompleted']) {
-          // Existing user - navigate to About Me page
+          // Existing user - retrieve dog profile and navigate to About Me page
+          final dogProfile = await apiService.getDogProfile(email);
+          
+          // Navigate to About Me page with the dog profile data
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => AboutMePage()),
+            MaterialPageRoute(
+              builder: (context) => AboutMePage(
+                dogProfile: dogProfile,
+                email: email,
+              ),
+            ),
           );
         } else {
           // New user - navigate to input page
-          // Use the email that was entered in the login form instead of relying on the returned value
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
