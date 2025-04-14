@@ -38,7 +38,8 @@ dependencies:
   shelf_static: ^1.1.2  # Updated to latest version
   crypto: ^3.0.1
   geolocator: ^10.1.0
-  url_launcher: ^6.1.11
+  url_launcher: ^6.2.0
+  cached_network_image: ^3.2.3
 
   
   
@@ -49,8 +50,11 @@ dependencies:
   shared_preferences: ^2.0.6
 
 dev_dependencies:
+  integration_test:
+    sdk: flutter
   flutter_test:
     sdk: flutter
+  
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

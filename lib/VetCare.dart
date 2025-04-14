@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class VetCarePage extends StatefulWidget {
   const VetCarePage({Key? key}) : super(key: key);
@@ -136,6 +137,12 @@ class _VetCarePageState extends State<VetCarePage> {
     });
   }
 
+  String? encodeQueryParameters(Map<String, String> params) {
+    return params.entries
+        .map((e) => '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}')
+        .join('&');
+  }
+
   void _showVetDetails(Map<String, dynamic> contact) {
     showDialog(
       context: context,
@@ -149,6 +156,9 @@ class _VetCarePageState extends State<VetCarePage> {
             _userLocation!.latitude, _userLocation!.longitude, lat, lon) / 1000;
           distance = '${distanceInKm.toStringAsFixed(1)} km away';
         }
+
+        final phoneNumber = contact['Contact Number']?.toString() ?? '';
+        final email = contact['Email-address']?.toString() ?? '';
 
         return Dialog(
           shape: RoundedRectangleBorder(
@@ -251,8 +261,15 @@ class _VetCarePageState extends State<VetCarePage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {
-                              // Implement phone call action
+                            onPressed: phoneNumber.isEmpty ? null : () async {
+                              final Uri phoneUri = Uri(scheme: 'tel', path: phoneNumber);
+                              if (await canLaunchUrl(phoneUri)) {
+                                await launchUrl(phoneUri);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Could not launch phone dialer')),
+                                );
+                              }
                               Navigator.pop(context);
                             },
                           ),
@@ -270,8 +287,21 @@ class _VetCarePageState extends State<VetCarePage> {
                                 borderRadius: BorderRadius.circular(10),
                               ),
                             ),
-                            onPressed: () {
-                              // Implement email action
+                            onPressed: email.isEmpty ? null : () async {
+                              final Uri emailUri = Uri(
+                                scheme: 'mailto',
+                                path: email,
+                                query: encodeQueryParameters({
+                                  'subject': 'Inquiry about veterinary services'
+                                }),
+                              );
+                              if (await canLaunchUrl(emailUri)) {
+                                await launchUrl(emailUri);
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(content: Text('Could not launch email client')),
+                                );
+                              }
                               Navigator.pop(context);
                             },
                           ),
